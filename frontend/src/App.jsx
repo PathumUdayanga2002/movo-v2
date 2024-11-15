@@ -1,10 +1,7 @@
 import React from "react";
-import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoard";
 
 const App = () => {
-  return <div>
-    <PresenterDashBoard/>
-  </div>;
+  return <div>App</div>;
 };
 
 export default App;
