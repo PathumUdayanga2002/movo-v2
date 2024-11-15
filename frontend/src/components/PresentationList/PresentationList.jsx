@@ -2,10 +2,10 @@ import React from "react";
 
 const PresentationList = () => {
   return (
-    <div className="bg-white p-4 shadow rounded">
+    <div className="bg-white p-4  rounded-xl shadow-md shadow-orange-600 font-poppins mt-2">
       <h3 className="text-xl font-semibold">My Presentation List</h3>
       <table className="min-w-full mt-4">
-        <thead>
+        <thead className="text-left text-sm text-gray-600">
           <tr>
             <th className="py-2">Order</th>
             <th className="py-2">ID</th>
@@ -13,7 +13,7 @@ const PresentationList = () => {
             <th className="py-2">Subject</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className=" text-[12px]">
           <tr>
             <td className="py-2">01</td>
             <td className="py-2">EC/2021</td>

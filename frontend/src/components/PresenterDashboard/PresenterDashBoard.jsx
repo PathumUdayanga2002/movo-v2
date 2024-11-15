@@ -7,7 +7,7 @@ import Sidebar from "../SIdebar/Sidebar";
 
 const PresenterDashBoard = () => {
   return (
-    <div className=" flex flex-row">
+    <div className=" flex flex-row bg-orange-100 ">
       <Sidebar />
       <div className="flex flex-col ml-4">
         <div className="w-[900px]">
@@ -19,7 +19,7 @@ const PresenterDashBoard = () => {
           <DashboardCards />
           <PresentationList />
           </div>
-          <div className=" mt-[100px]">
+          <div className=" mt-[16px] w-[300px]">
           <CardAndCalendar />
           </div>
         </div>
