@@ -11,26 +11,26 @@ import {
 
 const Sidebar = () => {
   return (
-    <div className="w-64 bg-white p-4 shadow-lg">
-      <h2 className="text-2xl font-bold text-orange-500">MOVO</h2>
+    <div className="w-64 bg-white p-4 shadow-lg h-screen font-poppins">
+      <h2 className="text-3xl font-bold text-orange-500">MOVO</h2>
       <nav className="mt-8">
-        <h3 className="text-gray-700 text-sm">Main Menu</h3>
-        <ul className="mt-4 space-y-2">
-          <li className="flex items-center text-gray-700">
+        <h3 className="text-gray-700 text-xl">Main Menu</h3>
+        <ul className="mt-4 space-y-6 ml-5 font-bold ">
+          <li className="flex items-center text-gray-700/90 ">
             <FaHome className="mr-2" /> Dashboard
           </li>
-          <li className="flex items-center text-gray-700">
+          <li className="flex items-center text-gray-700/90">
             <FaCalendar className="mr-2" /> Calendar
           </li>
-          <li className="flex items-center text-gray-700">
+          <li className="flex items-center text-gray-700/90">
             <FaBell className="mr-2" /> Notifications
           </li>
-          <li className="flex items-center text-gray-700">
+          <li className="flex items-center text-gray-700/90">
             <FaUser className="mr-2" /> Home
           </li>
         </ul>
-        <h3 className="text-gray-700 text-sm mt-6">Other Menu</h3>
-        <ul className="mt-4 space-y-2">
+        <h3 className="text-gray-700  mt-24 text-xl ">Other Menu</h3>
+        <ul className="mt-4 space-y-6 font-bold ml-5">
           <li className="flex items-center text-gray-700">
             <FaUser className="mr-2" /> Profile
           </li>
