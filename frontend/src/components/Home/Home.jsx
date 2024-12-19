@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
-import homeBg from "../../assets/homeBg.png";
 import { Link } from "react-router-dom";
+import homeBg from "../../assets/homeBg.png";
 
 const Home = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -20,9 +20,12 @@ const Home = () => {
         <div className="text-3xl font-bold text-orange-600">MOVO</div>
         <div className="relative space-x-4">
           {/* Login Button */}
-          <button className="px-4 py-2 border border-gray-300 rounded-lg">
-            Login
-          </button>
+          <Link to={"/login"}>
+            {" "}
+            <button className="px-4 py-2 border border-gray-300 rounded-lg">
+              Login
+            </button>
+          </Link>
 
           {/* Sign Up Button with Dropdown */}
           <div
@@ -35,19 +38,16 @@ const Home = () => {
             </button>
             {showDropdown && (
               <div className="absolute top-full mt-2 right-0 bg-white shadow-lg border border-gray-200 rounded-lg z-10">
-                <Link to={"/register-admin"}><button
-                  className="block px-6 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
-               
-                >
-                  Sign in as Admin
-                </button></Link>
-                <Link to ={'/register-presenter'}>
-                <button
-                  className="block px-6 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
-                
-                >
-                  Sign in as Presenter
-                </button> </Link>
+                <Link to={"/register-admin"}>
+                  <button className="block px-6 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">
+                    Sign in as Admin
+                  </button>
+                </Link>
+                <Link to={"/register-presenter"}>
+                  <button className="block px-6 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">
+                    Sign in as Presenter
+                  </button>{" "}
+                </Link>
               </div>
             )}
           </div>

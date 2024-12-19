@@ -9,6 +9,7 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
+import Login from "./components/Login/Login";
 
 const App = () => {
   return <div>
@@ -19,6 +20,7 @@ const App = () => {
 
 <Router>
   <Routes>
+    <Route path="/login" element={<Login/>} />
     <Route path="/register-admin" element={<SignInAdmin/>} />
     <Route path="/register-presenter" element={<SigninPresenter/>} />
     <Route path="/" element={<Home />} />
