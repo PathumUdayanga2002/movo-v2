@@ -15,7 +15,7 @@ const Login = () => {
         password,
       });
       localStorage.setItem("token", data.token);
-    //   localStorage.setItem("role", data.role);
+      localStorage.setItem("role", data.role);
 
       if (data.role === "admin") {
         navigate("/admin/admin-dashboard");

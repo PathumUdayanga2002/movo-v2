@@ -9,8 +9,18 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { RiDashboardFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    // Clear authentication data from localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+
+    // Redirect to login page
+    navigate("/login");
+  };
   return (
     <div className="w-72 bg-white p-4 px-16 shadow-lg h-screen  font-poppins">
       <h2 className="text-5xl font-bold text-orange-500">MOVO</h2>
@@ -38,7 +48,10 @@ const Sidebar = () => {
           <li className="flex items-center text-gray-700">
             <FaCog className="mr-2" /> Settings
           </li>
-          <li className="flex items-center text-gray-700">
+          <li
+            onClick={handleLogout}
+            className="flex items-center text-gray-700"
+          >
             <FaSignOutAlt className="mr-2" /> Log Out
           </li>
           <li className="flex items-center text-gray-700">
