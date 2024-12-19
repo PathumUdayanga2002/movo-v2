@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import lbg from "../../assets/lbg.png";
 import limage from "../../assets/logimage.png";
-import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axios";
 const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -15,16 +15,15 @@ const Login = () => {
         password,
       });
       localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.role);
-      
+    //   localStorage.setItem("role", data.role);
+
       if (data.role === "admin") {
         navigate("/admin/admin-dashboard");
         console.log("admin dashboard");
       } else if (data.role === "presenter") {
-        navigate("/presenter/presenter-dashboard");
+        navigate("/presenter-dashboard");
         console.log("presenter dashboard");
       }
-      
     } catch (error) {
       // console.log(error.massage);
       console.error("Login Failed", error.response.data);
@@ -79,14 +78,13 @@ const Login = () => {
                 />
               </div>
             </form>
-            <Link to="/">
-              <button
-                onClick={registerPresenter}
-                className="px-4 py-2 bg-orange-500 text-white rounded-lg items-center text-center mt-5 hover:bg-orange-600 transition duration-200"
-              >
-                Login
-              </button>
-            </Link>
+
+            <button
+              onClick={handleLogin}
+              className="px-4 py-2 bg-orange-500 text-white rounded-lg items-center text-center mt-5 hover:bg-orange-600 transition duration-200"
+            >
+              Login
+            </button>
           </div>
         </div>
       </div>

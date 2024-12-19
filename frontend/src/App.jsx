@@ -12,6 +12,8 @@ import {
 import Login from "./components/Login/Login";
 
 const App = () => {
+
+  const isAuthenticated = () => !!localStorage.getItem("token");
   return <div>
     {/* <SignInAdmin/>
     <SigninPresenter/>
@@ -20,6 +22,7 @@ const App = () => {
 
 <Router>
   <Routes>
+    <Route path="/presenter-dashboard" element={isAuthenticated() ?<PresenterDashBoard/>:<Navigate to="/login" />} />
     <Route path="/login" element={<Login/>} />
     <Route path="/register-admin" element={<SignInAdmin/>} />
     <Route path="/register-presenter" element={<SigninPresenter/>} />
