@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import homeBg from "../../assets/homeBg.png";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -34,18 +35,19 @@ const Home = () => {
             </button>
             {showDropdown && (
               <div className="absolute top-full mt-2 right-0 bg-white shadow-lg border border-gray-200 rounded-lg z-10">
-                <button
+                <Link to={"/register-admin"}><button
                   className="block px-6 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
-                  onClick={() => alert("Admin Sign In Clicked")}
+               
                 >
                   Sign in as Admin
-                </button>
+                </button></Link>
+                <Link to ={'/register-presenter'}>
                 <button
                   className="block px-6 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
-                  onClick={() => alert("Presenter Sign In Clicked")}
+                
                 >
                   Sign in as Presenter
-                </button>
+                </button> </Link>
               </div>
             )}
           </div>
