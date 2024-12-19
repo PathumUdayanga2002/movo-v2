@@ -15,6 +15,7 @@ const Home = () => {
         backgroundPosition: "center",
       }}
     >
+      
       {/* Header */}
       <header className="w-full flex justify-between items-center p-6 bg-white shadow-md">
         <div className="text-3xl font-bold text-orange-600">MOVO</div>

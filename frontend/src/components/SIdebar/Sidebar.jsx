@@ -9,7 +9,7 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { RiDashboardFill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -17,9 +17,9 @@ const Sidebar = () => {
     // Clear authentication data from localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-
+    alert("logout successfully");
     // Redirect to login page
-    navigate("/login");
+    navigate("/");
   };
   return (
     <div className="w-72 bg-white p-4 px-16 shadow-lg h-screen  font-poppins">
@@ -30,9 +30,14 @@ const Sidebar = () => {
           <li className="flex items-center text-gray-700/90 ">
             <RiDashboardFill className="mr-2" /> Dashboard
           </li>
-          <li className="flex items-center text-gray-700/90">
-            <FaCalendar className="mr-2" /> Calendar
-          </li>
+          <Link to={"/calendar"}>
+            {" "}
+            <li className="flex items-center text-gray-700/90 cursor-pointer">
+              {" "}
+              <FaCalendar className="mr-2" /> Calendar
+              {""}
+            </li>{" "}
+          </Link>{" "}
           <li className="flex items-center text-gray-700/90">
             <FaBell className="mr-2" /> Notifications
           </li>

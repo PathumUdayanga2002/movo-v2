@@ -14,13 +14,16 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //import routes
-const authRoutes= require("./routes/authRoutes");
-const adminRoutes= require("./routes/adminRoutes");
-const presenterRoutes= require("./routes/presenterRoutes");
+const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const presenterRoutes = require("./routes/presenterRoutes");
 
-app.use("/api/auth",authRoutes);
-app.use("/api/admin",adminRoutes);
-app.use("/api/presenter",presenterRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/presenter", presenterRoutes);
+
+const googleCalendarRoutes = require("./routes/googleCalenderRoutes");
+app.use("/api/google", googleCalendarRoutes);
 
 const URL = process.env.MONGODB_URL;
 
