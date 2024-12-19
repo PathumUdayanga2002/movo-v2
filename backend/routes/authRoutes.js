@@ -7,10 +7,10 @@ require("dotenv").config();
 const JWT_SECRET = process.env.JWT_CODE;
 
 router.post("/register-admin", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { id, name, email, password } = req.body;
 
   try {
-    const user = new User({ name, email, password, role: "admin" });
+    const user = new User({ id, name, email, password, role: "admin" });
     await user.save();
     res.status(201).json({ massage: "Admin created successfully....!" });
   } catch (error) {
@@ -19,14 +19,20 @@ router.post("/register-admin", async (req, res) => {
 });
 
 router.post("/register-presenter", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { id, name, email, password } = req.body;
 
   try {
-    const user = new User({ name, email, password, role: "presenter" });
+    const user = new User({
+      id,
+      name,
+      email,
+      password,
+      role: "presenter",
+    });
     await user.save();
     res.status(201).json({ massage: "Presenter created successfully....!" });
   } catch (error) {
-    res.status(500).json({ error: "Faild to create presenter" });
+    res.status(500).json({ error: error.message });
   }
 });
 
