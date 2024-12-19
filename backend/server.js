@@ -13,6 +13,15 @@ app.use(cors());
 //use  body parser
 app.use(bodyParser.json());
 
+//import routes
+const authRoutes= require("./routes/authRoutes");
+const adminRoutes= require("./routes/adminRoutes");
+const presenterRoutes= require("./routes/presenterRoutes");
+
+app.use("/api/auth",authRoutes);
+app.use("/api/admin",adminRoutes);
+app.use("/api/presenter",presenterRoutes);
+
 const URL = process.env.MONGODB_URL;
 
 mongoose
