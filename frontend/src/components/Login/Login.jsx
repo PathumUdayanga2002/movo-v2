@@ -16,6 +16,7 @@ const Login = () => {
       });
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
+      localStorage.setItem("name", data.name);
 
       if (data.role === "admin") {
         navigate("/admin/admin-dashboard");
@@ -23,6 +24,7 @@ const Login = () => {
       } else if (data.role === "presenter") {
         navigate("/presenter-dashboard");
         console.log("presenter dashboard");
+        console.log(data);
       }
     } catch (error) {
       // console.log(error.massage);

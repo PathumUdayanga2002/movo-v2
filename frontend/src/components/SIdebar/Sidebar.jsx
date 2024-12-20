@@ -17,6 +17,7 @@ const Sidebar = () => {
     // Clear authentication data from localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    localStorage.removeItem("name");
     alert("logout successfully");
     // Redirect to login page
     navigate("/");
@@ -55,7 +56,7 @@ const Sidebar = () => {
           </li>
           <li
             onClick={handleLogout}
-            className="flex items-center text-gray-700"
+            className="flex items-center text-gray-700 cursor-pointer"
           >
             <FaSignOutAlt className="mr-2" /> Log Out
           </li>
