@@ -13,6 +13,7 @@ import Login from "./components/Login/Login";
 import GoogleCalende from "./components/GoogleCalender/GoogleCalende";
 import Events from "./components/events/events";
 import MyCalendar from "./components/MyCalendar/MyCalendar";
+import AdminDashboard from "./Admin/AdminDashboardSample/AdminDashboard";
 
 const App = () => {
 
@@ -30,6 +31,7 @@ const App = () => {
   <Routes>
   <Route path="/calendar" element={<MyCalendar/>} />
     <Route path="/presenter-dashboard" element={isAuthenticated() ?<PresenterDashBoard/>:<Navigate to="/login" />} />
+    <Route path="/admin-dashboard" element={isAuthenticated() ?<AdminDashboard/>:<Navigate to="/login" />} />
     <Route path="/login" element={<Login/>} />
     <Route path="/register-admin" element={<SignInAdmin/>} />
     <Route path="/register-presenter" element={<SigninPresenter/>} />
