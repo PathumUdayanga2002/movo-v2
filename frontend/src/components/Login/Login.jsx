@@ -19,7 +19,7 @@ const Login = () => {
       localStorage.setItem("name", data.name);
 
       if (data.role === "admin") {
-        navigate("/admin/admin-dashboard");
+        navigate("/admin-dashboard");
         console.log("admin dashboard");
       } else if (data.role === "presenter") {
         navigate("/presenter-dashboard");
