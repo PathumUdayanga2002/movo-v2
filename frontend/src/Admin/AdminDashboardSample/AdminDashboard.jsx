@@ -32,7 +32,7 @@ const AdminDashboard = () => {
                 <div className="flex flex-row gap-2">
                   {/* paragraph and topic */}
                   <div className="flex flex-col gap-4 ">
-                    <h1 className=" text-xl font-semibold">My Presentation</h1>
+                    <h1 className=" text-xl font-semibold">Start Presentation</h1>
                     <p className=" text-[14px] text-gray-600">
                       Start your presetation here..
                     </p>
