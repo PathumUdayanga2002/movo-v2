@@ -1,9 +1,10 @@
 import React from "react";
-import CardAndCalendar from "../CardAndCalenderRight/CardAndCalendar";
-import DashboardCards from "../DashboardCards/DashboardCards";
-import Header from "../Header/Header";
-import PresentationList from "../PresentationList/PresentationList";
-import Sidebar from "../SIdebar/Sidebar";
+
+import CardAndCalendar from "../../components/CardAndCalenderRight/CardAndCalendar";
+import DashboardCards from "../../components/DashboardCards/DashboardCards";
+
+import Header from "../../components/Header/Header";
+import Sidebar from "../../components/SIdebar/Sidebar";
 
 const AdminDashboard = () => {
   return (
