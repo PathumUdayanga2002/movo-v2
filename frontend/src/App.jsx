@@ -45,6 +45,20 @@ const App = () => {
               isAuthenticated() ? <AdminDashboard /> : <Navigate to="/login" />
             }
           />
+          <Route
+            path="/admin/start-presentation"
+            element={
+              isAuthenticated() ? 
+              <AdminCountdown /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/presenter/join-presentation"
+            element={
+              isAuthenticated() ? 
+              <UserCountdown/> : <Navigate to="/login" />
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register-admin" element={<SignInAdmin />} />
           <Route path="/register-presenter" element={<SigninPresenter />} />
@@ -52,8 +66,7 @@ const App = () => {
         </Routes>
       </Router>
 
-      <AdminCountdown />
-    <UserCountdown/>
+    
     </div>
   );
 };
