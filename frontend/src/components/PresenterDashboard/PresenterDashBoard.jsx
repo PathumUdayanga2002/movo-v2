@@ -50,8 +50,9 @@ const PresenterDashBoard = () => {
                 </div>
               </Link>
               {/* upload card */}
-              <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] ">
-                <div className="flex flex-row gap-2">
+              <Link to={"/presenter/upload-details"}>
+                <div className="p-4 h-[150px] bg-white shadow shadow-orange-600 rounded-xl cursor-pointer hover:scale-105 ">
+                  <div className="flex flex-row gap-2">
                   {/* paragraph and topic */}
                   <div className="flex flex-col gap-4">
                     <h1 className=" text-xl font-semibold">Upload Details</h1>
@@ -70,6 +71,7 @@ const PresenterDashBoard = () => {
                   </div>
                 </div>
               </div>
+              </Link>
               {/* guidance of presentatoin card */}
               <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px]">
                 <div className="flex flex-row gap-2">

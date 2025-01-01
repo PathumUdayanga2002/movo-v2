@@ -14,6 +14,7 @@ import Login from "./components/Login/Login";
 import MyCalendar from "./components/MyCalendar/MyCalendar";
 import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoard";
 import UserCountdown from "./Presenter/UserCountdown/UserCountdown";
+import VideoGuide from "./Presenter/VideoGuide/VideoGuide";
 
 const App = () => {
   const isAuthenticated = () => !!localStorage.getItem("token");
@@ -59,12 +60,22 @@ const App = () => {
               <UserCountdown/> : <Navigate to="/login" />
             }
           />
+          {/* add more routes here */}
+          <Route
+            path="/presenter/upload-deatails"
+            element={
+              isAuthenticated() ? 
+              <VideoGuide/> : <Navigate to="/login" />
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register-admin" element={<SignInAdmin />} />
           <Route path="/register-presenter" element={<SigninPresenter />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </Router>
+
+      
 
     
     </div>
