@@ -60,9 +60,8 @@ const App = () => {
               <UserCountdown/> : <Navigate to="/login" />
             }
           />
-          {/* add more routes here */}
           <Route
-            path="/presenter/upload-deatails"
+            path="/presenter/VideoGuide"
             element={
               isAuthenticated() ? 
               <VideoGuide/> : <Navigate to="/login" />
@@ -71,6 +70,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register-admin" element={<SignInAdmin />} />
           <Route path="/register-presenter" element={<SigninPresenter />} />
+
           <Route path="/" element={<Home />} />
         </Routes>
       </Router>

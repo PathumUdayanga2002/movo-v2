@@ -50,7 +50,7 @@ const PresenterDashBoard = () => {
                 </div>
               </Link>
               {/* upload card */}
-              <Link to={"/presenter/upload-details"}>
+              <Link to={"/presenter/VideoGuide"}>
                 <div className="p-4 h-[150px] bg-white shadow shadow-orange-600 rounded-xl cursor-pointer hover:scale-105 ">
                   <div className="flex flex-row gap-2">
                   {/* paragraph and topic */}
