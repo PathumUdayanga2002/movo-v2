@@ -1,9 +1,10 @@
 import React from 'react'
 import Sidebar from '../../components/SIdebar/Sidebar'
+import img1 from '../../assets/images/ion_documents.svg'
 
 const VideoGuide = () => {
  
-  const documents = Array(6).fill({
+  const documents = Array(9).fill({
     title: "Document Title 01",
     description: "Horem ipsum dolor sit amet, consectetur adipiscing elit.",
   });
@@ -30,12 +31,12 @@ const VideoGuide = () => {
       <div className="mt-6">
       <div className="flex justify-center gap-4 mb-4">
         <button className="bg-orange-500 text-white px-4 py-2 rounded shadow">Videos</button>
-        <button className="bg-gray-100 text-gray-700 px-4 py-2 rounded shadow">Docs</button>
+        <button className="bg-orange-500 text-white px-4 py-2 rounded shadow">Docs</button>
       </div>
       <div className="grid grid-cols-3 gap-4">
         {documents.map((doc, index) => (
-          <div key={index} className="bg-white shadow p-4 rounded-lg">
-            <div className="text-orange-500 text-5xl mb-4"><img src="https://via.placeholder.com/50" className="w-20 h-20 relative overflow-hidden items-center" /></div>
+          <div key={index} className="w-[260px] h-[270px] bg-[#f6eded] rounded-[23px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+            <div className="text-orange-500 text-5xl mb-4"><img src={img1} className="w-20 h-20 relative overflow-hidden items-center" /></div>
             <h3 className="w-15 h-15 text-center text-black text-lg font-medium">{doc.title}</h3>
             <p className="text-gray-600 text-sm">{doc.description}</p>
           </div>
