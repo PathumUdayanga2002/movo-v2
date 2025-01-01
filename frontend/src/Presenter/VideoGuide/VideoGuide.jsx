@@ -13,7 +13,7 @@ const VideoGuide = () => {
     <div className="flex h-screen">
     <Sidebar />
     <div className="flex-1 flex flex-col">
-      <div className="flex-1 flex flex-col">
+      <div className="bg-[#FFF4F0] p-6 flex items-center justify-between">
       <div className="flex items-center space-x-4">
         <img
           src="https://via.placeholder.com/50" // Replace with the actual profile picture URL
@@ -35,7 +35,7 @@ const VideoGuide = () => {
       <div className="grid grid-cols-3 gap-4">
         {documents.map((doc, index) => (
           <div key={index} className="bg-white shadow p-4 rounded-lg">
-            <div className="text-orange-500 text-5xl mb-4">📄</div>
+            <div className="text-orange-500 text-5xl mb-4"><img src="https://via.placeholder.com/50" className="w-20 h-20 relative overflow-hidden items-center" /></div>
             <h3 className="w-15 h-15 text-center text-black text-lg font-medium">{doc.title}</h3>
             <p className="text-gray-600 text-sm">{doc.description}</p>
           </div>
