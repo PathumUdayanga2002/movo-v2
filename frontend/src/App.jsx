@@ -26,6 +26,9 @@ const App = () => {
       {/* <GoogleCalende/>
     <Events/> */}
 
+<AdminCountdown />
+<UserCountdown/>
+
       <Router>
         <Routes>
           <Route path="/calendar" element={<MyCalendar />} />
