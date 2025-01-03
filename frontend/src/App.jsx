@@ -7,20 +7,14 @@ import {
 } from "react-router-dom";
 import AdminCountdown from "./Admin/AdminCountdown/AdminCountdown";
 import AdminDashboard from "./Admin/AdminDashboardSample/AdminDashboard";
-import AdminFileUpload from "./Admin/AdminUpload/AdminFileUpload";
 import SignInAdmin from "./Admin/SignInAdmin/SignInAdmin";
 import SigninPresenter from "./Presenter/Signin/SigninPresenter";
-import UserCountdown from "./Presenter/UserCountdown/UserCountdown";
-import UserFileViwe from "./Presenter/UserFileViwe/UserFileViwe";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import MyCalendar from "./components/MyCalendar/MyCalendar";
 import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoard";
-<<<<<<< HEAD
-import UserCountdown from "./Presenter/UserCountdown/UserCountdown";
+import serCountdown from "./Presenter/UserCountdown/UserCountdown";
 import VideoGuide from "./Presenter/VideoGuide/VideoGuide";
-=======
->>>>>>> origin
 
 const App = () => {
   const isAuthenticated = () => !!localStorage.getItem("token");
@@ -32,21 +26,10 @@ const App = () => {
     <PresenterDashBoard/> */}
       {/* <GoogleCalende/>
     <Events/> */}
+
       <Router>
         <Routes>
           <Route path="/calendar" element={<MyCalendar />} />
-          <Route
-            path="/presenter-view-guidances"
-            element={
-              isAuthenticated() ? <UserFileViwe /> : <Navigate to="/login" />
-            }
-          />
-          <Route
-            path="/admin-upload-file"
-            element={
-              isAuthenticated() ? <AdminFileUpload /> : <Navigate to="/login" />
-            }
-          />
           <Route
             path="/presenter-dashboard"
             element={
@@ -66,13 +49,15 @@ const App = () => {
           <Route
             path="/admin/start-presentation"
             element={
-              isAuthenticated() ? <AdminCountdown /> : <Navigate to="/login" />
+              isAuthenticated() ? 
+              <AdminCountdown /> : <Navigate to="/login" />
             }
           />
           <Route
             path="/presenter/join-presentation"
             element={
-              isAuthenticated() ? <UserCountdown /> : <Navigate to="/login" />
+              isAuthenticated() ? 
+              <UserCountdown/> : <Navigate to="/login" />
             }
           />
           <Route
@@ -89,13 +74,10 @@ const App = () => {
           <Route path="/" element={<Home />} />
         </Routes>
       </Router>
-<<<<<<< HEAD
 
       
 
     
-=======
->>>>>>> origin
     </div>
   );
 };
