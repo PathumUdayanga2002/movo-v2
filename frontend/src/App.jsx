@@ -16,6 +16,7 @@ import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import MyCalendar from "./components/MyCalendar/MyCalendar";
 import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoard";
+import AiBot from "./components/AiBot/AiBot";
 
 const App = () => {
   const isAuthenticated = () => !!localStorage.getItem("token");
@@ -27,7 +28,8 @@ const App = () => {
     <PresenterDashBoard/> */}
       {/* <GoogleCalende/>
     <Events/> */}
-      <Router>
+    <AiBot/>
+    <Router>
         <Routes>
           <Route path="/calendar" element={<MyCalendar />} />
           <Route
