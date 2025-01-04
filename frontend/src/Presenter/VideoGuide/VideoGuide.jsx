@@ -73,15 +73,16 @@ const VideoGuide = () => {
             {activeTab === "docs" &&
               documents.map((doc, index) => (
                 <div
-                  key={index}
-                  className="w-[260px] h-[270px] bg-[#f6eded] rounded-[23px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-                >
-                  <div className="text-orange-500 text-5xl mb-4">
-                    <img
-                      src={img1}
-                      className="w-20 h-20 relative overflow-hidden items-center"
-                    />
-                  </div>
+                   key={index}
+                   className="w-[260px] h-[280px] bg-gradient-to-b from-[#fdf2f2] to-[#f6eded] rounded-3xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex flex-col items-center p-6"
+                  >
+                 <div className="mb-4">
+                  <img
+                  src="https://via.placeholder.com/80" // Replace with video thumbnail
+                  alt="Thumbnail"
+                  className="w-20 h-20 object-cover rounded-md border border-gray-300"
+                  />
+                </div>
                   <h3 className="w-15 h-15 text-center text-black text-lg font-medium">
                     {doc.title}
                   </h3>
@@ -91,21 +92,25 @@ const VideoGuide = () => {
 
             {activeTab === "videos" &&
               videos.map((video, index) => (
-                <div
-                  key={index}
-                  className="w-[260px] h-[270px] bg-[#f6eded] rounded-[23px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-                >
-                  <div className="text-orange-500 text-5xl mb-4">
-                    <img
-                      src="https://via.placeholder.com/80" // Replace with video thumbnail
-                      className="w-20 h-20 relative overflow-hidden items-center"
-                    />
-                  </div>
-                  <h3 className="w-15 h-15 text-center text-black text-lg font-medium">
-                    {video.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm">{video.description}</p>
-                </div>
+            <div
+               key={index}
+                className="w-[260px] h-[280px] bg-gradient-to-b from-[#fdf2f2] to-[#f6eded] rounded-3xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex flex-col items-center p-6"
+>
+              <div className="mb-4">
+              <img
+              src="https://via.placeholder.com/80" // Replace with video thumbnail
+              alt="Thumbnail"
+              className="w-20 h-20 object-cover rounded-md border border-gray-300"
+             />
+            </div>
+          <h3 className="text-center text-black text-lg font-semibold mb-2 hover:text-orange-600 transition-all">
+           {video.title}
+                      </h3>
+             <p className="text-gray-500 text-sm text-center">
+              {video.description}
+              </p>
+          </div>
+
               ))}
           </div>
         </div>
