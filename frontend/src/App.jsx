@@ -13,7 +13,7 @@ import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import MyCalendar from "./components/MyCalendar/MyCalendar";
 import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoard";
-import serCountdown from "./Presenter/UserCountdown/UserCountdown";
+import UserCountdown from "./Presenter/UserCountdown/UserCountdown";
 import VideoGuide from "./Presenter/VideoGuide/VideoGuide";
 
 const App = () => {
