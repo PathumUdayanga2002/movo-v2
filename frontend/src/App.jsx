@@ -12,6 +12,7 @@ import SignInAdmin from "./Admin/SignInAdmin/SignInAdmin";
 import SigninPresenter from "./Presenter/Signin/SigninPresenter";
 import UserCountdown from "./Presenter/UserCountdown/UserCountdown";
 import UserFileViwe from "./Presenter/UserFileViwe/UserFileViwe";
+import AiBot from "./components/AiBot/AiBot";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import MyCalendar from "./components/MyCalendar/MyCalendar";
@@ -27,9 +28,14 @@ const App = () => {
     <PresenterDashBoard/> */}
       {/* <GoogleCalende/>
     <Events/> */}
+
       <Router>
         <Routes>
           <Route path="/calendar" element={<MyCalendar />} />
+          <Route
+            path="/presenter/train-with-ai"
+            element={isAuthenticated() ? <AiBot /> : <Navigate to="/login" />}
+          />
           <Route
             path="/presenter-view-guidances"
             element={

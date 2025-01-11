@@ -93,7 +93,8 @@ const PresenterDashBoard = () => {
                 </div>
               </div></Link>
               {/* train with ai chat bot */}
-              <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px]">
+            <Link to={"/presenter/train-with-ai"}>
+            <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] cursor-pointer hover:scale-105">
                 <div className="flex flex-row gap-2">
                   {/* paragraph and topic */}
                   <div className="flex flex-col gap-4">
@@ -114,6 +115,7 @@ const PresenterDashBoard = () => {
                   </div>
                 </div>
               </div>
+            </Link>
             </div>
             <PresentationList />
           </div>
