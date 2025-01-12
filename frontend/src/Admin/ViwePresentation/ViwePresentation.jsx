@@ -17,7 +17,7 @@ const ViwePresentation = () => {
   // Search presentation by presenter ID
   const handleSearch = () => {
     fetch(
-      `http://localhost:5000/api/upload-details//search-presentation?id=${searchId}`
+      `http://localhost:5000/api/upload-details/search-presentation?id=${searchId}`
     )
       .then((res) => {
         if (!res.ok) {
