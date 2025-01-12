@@ -2,6 +2,8 @@ const express = require("express");
 const multer = require("multer");
 const router = express.Router();
 const Presentation = require("../models/presentation");
+const fs = require("fs");
+const path = require("path");
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -70,5 +72,32 @@ router.get("/", async (req, res) => {
     console.error("Error fetching presentations:", error);
     res.status(500).json({ message: "Error occurred", error });
   }
+});
+
+router.delete("/delete-details/:id", (req, res) => {
+  const { id } = req.params;
+
+  // Find the presentation by ID
+  const presentationIndex = presentations.findIndex((p) => p.id === id);
+
+  if (presentationIndex === -1) {
+    return res.status(404).json({ error: "Presentation not found" });
+  }
+
+  const presentation = presentations[presentationIndex];
+
+  // Remove the file from the server
+  const filePath = path.join(__dirname, "uploads", presentation.file); // Adjust 'uploads' path as needed
+  fs.unlink(filePath, (err) => {
+    if (err && err.code !== "ENOENT") {
+      console.error("Error deleting file:", err);
+      return res.status(500).json({ error: "Failed to delete file" });
+    }
+
+    // Remove the presentation from the database
+    presentations.splice(presentationIndex, 1);
+
+    res.status(200).json({ message: "Presentation deleted successfully" });
+  });
 });
 module.exports = router;
