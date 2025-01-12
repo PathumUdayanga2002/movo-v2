@@ -15,8 +15,6 @@ import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import MyCalendar from "./components/MyCalendar/MyCalendar";
 import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoard";
-import VideoGuide from "./Presenter/VideoGuide/VideoGuide";
-import AdminFileUpload from "./Admin/AdminUpload/AdminFileUpload";
 
 const App = () => {
   const isAuthenticated = () => !!localStorage.getItem("token");
@@ -32,7 +30,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/calendar" element={<MyCalendar />} />
-          {/* <Route
+          <Route
             path="/presenter/train-with-ai"
             element={isAuthenticated() ? <AiBot /> : <Navigate to="/login" />}
           /> */}
