@@ -33,7 +33,7 @@ const App = () => {
           <Route
             path="/presenter/train-with-ai"
             element={isAuthenticated() ? <AiBot /> : <Navigate to="/login" />}
-          /> */}
+          /> */
           
           <Route
             path="/admin-upload-file"
