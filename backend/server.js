@@ -27,6 +27,8 @@ const adminRoutes = require("./routes/adminRoutes");
 const presenterRoutes = require("./routes/presenterRoutes");
 const countdownRoutes = require("./routes/countdownRoutes");
 const fileRoutes = require("./routes/fileRoutes");
+const emailRoutes = require("./routes/emailRoutes");
+
 
 app.use("/api/set-countdown", countdownRoutes);
 app.use("/api/auth", authRoutes);
@@ -34,6 +36,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/presenter", presenterRoutes);
 app.use("/api/files", fileRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/email", emailRoutes);
 
 // Route to handle audio uploads and transcription with AssemblyAI
 app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
