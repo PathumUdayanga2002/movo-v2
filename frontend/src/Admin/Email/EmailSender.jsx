@@ -78,19 +78,27 @@ const EmailSender = () => {
       alert("Failed to send email!");
       console.error(error.response || error.message);
     }
+
   };
 
+  const userName = localStorage.getItem("name") || "User";
+
   return (
-    <div className=" flex flex-row ">
+    <div className=" flex flex-row font-poppins">
       {/* sidebar */}
       <div>
         <Sidebar />
       </div>
       {/* email sender */}
       <div className=" flex w-max h-auto">
+
         <div className="flex flex-col gap-6 bg-white  border-l-2 rounded-lg p-6 w-[900px]">
+        <h1 >
+Hello, {userName}
+            </h1>
           <h2 className="text-xl font-semibold text-orange-600">
-            Search Presenter
+            Send Your Massage
+            By E-Mail
           </h2>
           <div className="flex items-center gap-4">
             <input
