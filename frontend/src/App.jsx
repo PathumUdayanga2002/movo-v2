@@ -15,6 +15,8 @@ import MyCalendar from "./components/MyCalendar/MyCalendar";
 import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoard";
 import UserCountdown from "./Presenter/UserCountdown/UserCountdown";
 import VideoGuide from "./Presenter/VideoGuide/VideoGuide";
+import UserFileViwe from "./Presenter/UserFileViwe/UserFileViwe";
+import AdminFileUpload from "./Admin/AdminUpload/AdminFileUpload";
 
 const App = () => {
   const isAuthenticated = () => !!localStorage.getItem("token");
@@ -30,6 +32,26 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/calendar" element={<MyCalendar />} />
+          <Route
+            path="/admin-upload-file"
+            element={
+              isAuthenticated() ? (
+              <AdminFileUpload/>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/presenter-view-guidances"
+            element={
+              isAuthenticated() ? (
+                <UserFileViwe/>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
           <Route
             path="/presenter-dashboard"
             element={
