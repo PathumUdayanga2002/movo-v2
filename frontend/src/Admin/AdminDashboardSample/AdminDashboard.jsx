@@ -97,27 +97,27 @@ const AdminDashboard = () => {
                 </div>
               </Link>
               {/* train with ai chat bot */}
-              <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px]">
-                <div className="flex flex-row gap-2">
-                  {/* paragraph and topic */}
-                  <div className="flex flex-col gap-4">
-                    <h1 className=" text-xl font-semibold">
-                      Guide with AI chat bot
-                    </h1>
-                    <p className=" text-sm text-gray-600">
-                      Practice the presentation with AI chat bot
-                    </p>
-                  </div>
-                  {/* image */}
-                  <div className="flex object-cover">
-                    <img
-                      className=" object-cover  w-[100px] h-[90px]"
-                      src={aichat}
-                      alt="card image"
-                    />
+              <Link to={"/email/send-message"}>
+                <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] cursor-pointer hover:scale-105">
+                  <div className="flex flex-row gap-2">
+                    {/* paragraph and topic */}
+                    <div className="flex flex-col gap-4">
+                      <h1 className=" text-xl font-semibold">Send Message</h1>
+                      <p className=" text-sm text-gray-600">
+                        Send massage or Presentation Reminder
+                      </p>
+                    </div>
+                    {/* image */}
+                    <div className="flex object-cover">
+                      <img
+                        className=" object-cover  w-[100px] h-[90px]"
+                        src={aichat}
+                        alt="card image"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
             <PresentationList />
           </div>

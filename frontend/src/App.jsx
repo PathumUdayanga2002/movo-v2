@@ -17,6 +17,7 @@ import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import MyCalendar from "./components/MyCalendar/MyCalendar";
 import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoard";
+import EmailSender from "./Admin/Email/EmailSender";
 
 const App = () => {
   const isAuthenticated = () => !!localStorage.getItem("token");
@@ -32,6 +33,10 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/calendar" element={<MyCalendar />} />
+          <Route
+            path="/email/send-message"
+            element={isAuthenticated() ? <EmailSender/> : <Navigate to="/login" />}
+          />
           <Route
             path="/presenter/train-with-ai"
             element={isAuthenticated() ? <AiBot /> : <Navigate to="/login" />}
