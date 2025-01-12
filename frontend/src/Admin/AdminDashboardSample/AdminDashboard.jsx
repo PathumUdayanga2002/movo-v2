@@ -50,39 +50,43 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </Link>
-              {/* upload card */}
-              <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] ">
-                <div className="flex flex-row gap-2">
-                  {/* paragraph and topic */}
-                  <div className="flex flex-col gap-4">
-                    <h1 className=" text-xl font-semibold">Upload Details</h1>
-                    <p className=" text-sm text-gray-600">
-                      Upload your presentation details (group detais,
-                      presentation...)
-                    </p>
-                  </div>
-                  {/* image */}
-                  <div className="flex object-cover">
-                    <img
-                      className=" object-cover w-[200px] h-[100px]"
-                      src={uploadDetails}
-                      alt="card image"
-                    />
+              {/* upload card  "/admin-upload-file"*/}
+              <Link to={"/admin-upload-file"}>
+                <div className="p-4 h-[150px] bg-white shadow shadow-orange-600 rounded-xl cursor-pointer hover:scale-105 ">
+                  <div className="flex flex-row gap-2">
+                    {/* paragraph and topic */}
+                    <div className="flex flex-col gap-4">
+                      <h1 className=" text-xl font-semibold">
+                        Upload Guideline
+                      </h1>
+                      <p className=" text-sm text-gray-600">
+                        Upload your presentation details (group detais,
+                        presentation...)
+                      </p>
+                    </div>
+                    {/* image */}
+                    <div className="flex object-cover">
+                      <img
+                        className=" object-cover w-[200px] h-[100px]"
+                        src={uploadDetails}
+                        alt="card image"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
               {/* guidance of presentatoin card */}
-              <Link to={"/admin-upload-file"}>
+              <Link to={"/viwe-presentation"}>
                 {" "}
                 <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] cursor-pointer hover:scale-105">
                   <div className="flex flex-row gap-2">
                     {/* paragraph and topic */}
                     <div className="flex flex-col gap-4">
                       <h1 className=" text-xl font-semibold">
-                        Guidance Of Presentations
+                        Show the Presentations
                       </h1>
                       <p className=" text-sm text-gray-600">
-                        Guide for your presentations
+                        Show the presenter uploaded presentations
                       </p>
                     </div>
                     {/* image */}
