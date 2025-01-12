@@ -18,6 +18,7 @@ import Login from "./components/Login/Login";
 import MyCalendar from "./components/MyCalendar/MyCalendar";
 import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoard";
 import EmailSender from "./Admin/Email/EmailSender";
+import UploadPresentation from "./Presenter/UploadPresentation/UploadPresentation";
 
 const App = () => {
   const isAuthenticated = () => !!localStorage.getItem("token");
@@ -33,6 +34,10 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/calendar" element={<MyCalendar />} />
+          <Route
+            path="/uplod-presentation"
+            element={isAuthenticated() ? <UploadPresentation/> : <Navigate to="/login" />}
+          />
           <Route
             path="/email/send-message"
             element={isAuthenticated() ? <EmailSender/> : <Navigate to="/login" />}
