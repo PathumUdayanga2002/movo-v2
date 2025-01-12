@@ -1,117 +1,83 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/SIdebar/Sidebar";
-import img1 from "../../assets/images/ion_documents.svg";
 
 const VideoGuide = () => {
   const [activeTab, setActiveTab] = useState("videos");
+  const [files, setFiles] = useState([]);
 
-  const documents = Array(9).fill({
-    title: "Document Title 01",
-    description: "Horem ipsum dolor sit amet, consectetur adipiscing elit.",
-  });
+  // Fetch uploaded files
+  useEffect(() => {
+    const fetchFiles = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/files");
+        const data = await response.json();
+        setFiles(data || []);
+      } catch (error) {
+        console.error("Error fetching files:", error);
+      }
+    };
+    fetchFiles();
+  }, []);
 
-  const videos = Array(9).fill({
-    title: "Video Title 01",
-    description: "Horem ipsum dolor sit amet, consectetur adipiscing elit.",
-  });
+  const handleTabChange = (tab) => setActiveTab(tab);
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
+  const filteredFiles = files.filter((file) => file.type === activeTab);
 
   return (
     <div className="flex h-screen">
       <Sidebar />
       <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <div className="bg-[#FFF4F0] p-6 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <img
-              src="https://via.placeholder.com/50" // Replace with the actual profile picture URL
-              alt="Profile"
-              className="w-12 h-12 rounded-full"
-            />
-            <div>
-              <h1 className="text-lg font-bold text-black">Hi, Pathum Udayanga</h1>
-              <p className="text-2xl text-black">
-                will you Guide For{" "}
-                <span className="text-orange-500 font-semibold text-2xl">
-                  Correct Presentation
-                </span>
-              </p>
-            </div>
-          </div>
+        <div className="bg-[#FFF4F0] p-6">
+          <h1 className="text-lg font-bold">Hi, Pathum Udayanga</h1>
+          <p className="text-2xl">
+            will you Guide For{" "}
+            <span className="text-orange-500">Correct Presentation</span>
+          </p>
         </div>
 
-        {/* Tab Buttons */}
         <div className="mt-6">
           <div className="flex justify-center gap-4 mb-4">
             <button
               onClick={() => handleTabChange("videos")}
-              className={`px-4 py-2 rounded shadow ${
-                activeTab === "videos"
-                  ? "bg-orange-500 text-white"
-                  : "bg-white text-orange-500 border border-orange-500"
+              className={`px-4 py-2 rounded ${
+                activeTab === "videos" ? "bg-orange-500 text-white" : "bg-white"
               }`}
             >
               Videos
             </button>
             <button
-              onClick={() => handleTabChange("docs")}
-              className={`px-4 py-2 rounded shadow ${
-                activeTab === "docs"
-                  ? "bg-orange-500 text-white"
-                  : "bg-white text-orange-500 border border-orange-500"
+              onClick={() => handleTabChange("documents")}
+              className={`px-4 py-2 rounded ${
+                activeTab === "documents" ? "bg-orange-500 text-white" : "bg-white"
               }`}
             >
               Docs
             </button>
           </div>
 
-          {/* Content Grid */}
           <div className="grid grid-cols-3 gap-4">
-            {activeTab === "docs" &&
-              documents.map((doc, index) => (
-                <div
-                   key={index}
-                   className="w-[260px] h-[280px] bg-gradient-to-b from-[#fdf2f2] to-[#f6eded] rounded-3xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex flex-col items-center p-6"
+            {filteredFiles.map((file) => (
+              <div
+                key={file._id}
+                className="w-[260px] h-[280px] bg-gradient-to-b from-[#fdf2f2] to-[#f6eded] rounded-3xl shadow-lg p-6"
+              >
+                <h3 className="text-lg font-medium">{file.name}</h3>
+                {file.type === "video" ? (
+                  <video width="200" controls>
+                    <source src={`http://localhost:5000${file.url}`} />
+                  </video>
+                ) : (
+                  <a
+                    href={`http://localhost:5000${file.url}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 underline"
                   >
-                 <div className="mb-4">
-                  <img
-                  src="https://via.placeholder.com/80" // Replace with video thumbnail
-                  alt="Thumbnail"
-                  className="w-20 h-20 object-cover rounded-md border border-gray-300"
-                  />
-                </div>
-                  <h3 className="w-15 h-15 text-center text-black text-lg font-medium">
-                    {doc.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm">{doc.description}</p>
-                </div>
-              ))}
-
-            {activeTab === "videos" &&
-              videos.map((video, index) => (
-            <div
-               key={index}
-                className="w-[260px] h-[280px] bg-gradient-to-b from-[#fdf2f2] to-[#f6eded] rounded-3xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex flex-col items-center p-6"
->
-              <div className="mb-4">
-              <img
-              src="https://via.placeholder.com/80" // Replace with video thumbnail
-              alt="Thumbnail"
-              className="w-20 h-20 object-cover rounded-md border border-gray-300"
-             />
-            </div>
-          <h3 className="text-center text-black text-lg font-semibold mb-2 hover:text-orange-600 transition-all">
-           {video.title}
-                      </h3>
-             <p className="text-gray-500 text-sm text-center">
-              {video.description}
-              </p>
-          </div>
-
-              ))}
+                    View Document
+                  </a>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
