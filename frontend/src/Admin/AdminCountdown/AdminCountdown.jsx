@@ -18,6 +18,7 @@ const AdminCountdown = () => {
     socket.on("updateCountdown", (data) => {
       setTime(data.time);
       setIsRunning(data.isRunning);
+      console.log("time:",time);
     });
 
     return () => {
