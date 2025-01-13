@@ -10,6 +10,7 @@ import AdminDashboard from "./Admin/AdminDashboardSample/AdminDashboard";
 import AdminFileUpload from "./Admin/AdminUpload/AdminFileUpload";
 import EmailSender from "./Admin/Email/EmailSender";
 import SignInAdmin from "./Admin/SignInAdmin/SignInAdmin";
+import Timer from "./Admin/Timer/Timer";
 import ViwePresentation from "./Admin/ViwePresentation/ViwePresentation";
 import SigninPresenter from "./Presenter/Signin/SigninPresenter";
 import UploadPresentation from "./Presenter/UploadPresentation/UploadPresentation";
@@ -108,6 +109,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register-admin" element={<SignInAdmin />} />
           <Route path="/register-presenter" element={<SigninPresenter />} />
+          <Route path="/get-timer" element={<Timer />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </Router>
