@@ -10,7 +10,7 @@ const AdminFileUpload = () => {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/files");
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/files`);
         const data = await response.json();
         console.log(data);
 
@@ -42,7 +42,7 @@ const AdminFileUpload = () => {
     formData.append("type", type);
 
     try {
-      const response = await fetch("http://localhost:5000/api/files/upload", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/files/upload`, {
         method: "POST",
         headers: {
           Authorization: "Bearer admin-token", // Replace with your real token logic
@@ -68,7 +68,7 @@ const AdminFileUpload = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/files/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/files/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: "Bearer admin-token", // Use real token for authentication
@@ -137,14 +137,14 @@ const AdminFileUpload = () => {
               {file.type === "video" ? (
                 <video width="600" controls>
                   <source
-                    src={`http://localhost:5000${file.url}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}${file.url}`}
                     type="video/mp4"
                   />
                   Your browser does not support the video tag.
                 </video>
               ) : file.type === "document" ? (
                 <a
-                  href={`http://localhost:5000${file.url}`}
+                  href={`${import.meta.env.VITE_BACKEND_URL}${file.url}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

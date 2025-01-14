@@ -28,7 +28,7 @@ const UploadPresentation = () => {
     formData.append("groupMembers", JSON.stringify(groupMembers));
     formData.append("description", discription); // Replace with actual description input
 
-    fetch("http://localhost:5000/api/upload-details/upload-presentation", {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/upload-details/upload-presentation`, {
       method: "POST",
       body: formData,
     })

@@ -35,7 +35,7 @@ const AudioRecorder = () => {
     formData.append("audio", audioBlob, "audio.webm");
 
     try {
-      const response = await fetch("http://localhost:5000/api/transcribe", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/transcribe`, {
         method: "POST",
         body: formData,
       });
