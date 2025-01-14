@@ -23,9 +23,7 @@ const UserFileView = () => {
   }, []);
 
   const filteredFiles =
-    filter === "all"
-      ? files
-      : files.filter((file) => file.type === filter);
+    filter === "all" ? files : files.filter((file) => file.type === filter);
 
   return (
     <div className="flex">
@@ -81,8 +79,11 @@ const UserFileView = () => {
                   <h3 className="font-semibold text-lg text-gray-700 truncate mb-2">
                     {file.name}
                   </h3>
-                  <p className="text-sm text-gray-500 truncate">
-                    {file.description || "File description here."}
+                  <p
+                    className="text-sm text-gray-500 truncate"
+                    title={file.description || "No description provided"}
+                  >
+                    {file.description || "No description provided"}
                   </p>
 
                   {file.type === "document" ? (

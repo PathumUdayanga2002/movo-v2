@@ -8,13 +8,7 @@ const AdminFileUpload = () => {
 
   // Fetch the list of uploaded files
   useEffect(() => {
-/*************  ✨ Codeium Command ⭐  *************/
-  /**
-   * Fetches the list of uploaded files from the server and sets the "files" state to the result.
-   * If the response is not an array, sets the "files" state to an empty array.
-   * If an error occurs, logs the error and sets the "files" state to an empty array.
-   */
-/******  5a244bc3-8209-404b-83c1-d979b7b60128  *******/
+  
     const fetchFiles = async () => {
       try {
         const response = await fetch("http://localhost:5000/api/files");
