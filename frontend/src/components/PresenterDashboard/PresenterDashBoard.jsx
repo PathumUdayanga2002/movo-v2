@@ -50,28 +50,26 @@ const PresenterDashBoard = () => {
                 </div>
               </Link>
               {/* upload card */}
-              <Link to={"/uplod-presentation"}>
-                <div className="p-4 h-[150px] bg-white shadow shadow-orange-600 rounded-xl cursor-pointer hover:scale-105 ">
-                  <div className="flex flex-row gap-2">
-                    {/* paragraph and topic */}
-                    <div className="flex flex-col gap-4">
-                      <h1 className=" text-xl font-semibold">Upload Details</h1>
-                      <p className=" text-sm text-gray-600">
-                        Upload your presentation details (group detais,
-                        presentation...)
-                      </p>
-                    </div>
-                    {/* image */}
-                    <div className="flex object-cover">
-                      <img
-                        className=" object-cover w-[200px] h-[100px]"
-                        src={uploadDetails}
-                        alt="card image"
-                      />
-                    </div>
+              <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] ">
+                <div className="flex flex-row gap-2">
+                  {/* paragraph and topic */}
+                  <div className="flex flex-col gap-4">
+                    <h1 className=" text-xl font-semibold">Upload Details</h1>
+                    <p className=" text-sm text-gray-600">
+                      Upload your presentation details (group detais,
+                      presentation...)
+                    </p>
+                  </div>
+                  {/* image */}
+                  <div className="flex object-cover">
+                    <img
+                      className=" object-cover w-[200px] h-[100px]"
+                      src={uploadDetails}
+                      alt="card image"
+                    />
                   </div>
                 </div>
-              </Link>
+              </div>
               {/* guidance of presentatoin card */}
               <Link to={"/presenter-view-guidances"}>
                 <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] cursor-pointer hover:scale-105">
