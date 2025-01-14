@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Sidebar from "../../components/SIdebar/Sidebar";
 const AdminFileUpload = () => {
   const [file, setFile] = useState(null);
   const [type, setType] = useState("document");
@@ -89,10 +90,17 @@ const AdminFileUpload = () => {
   };
 
   return (
-    <div className="flex flex-col items-center p-8 bg-gray-100 rounded-md shadow-md max-w-lg mx-auto">
+    <div className=" flex flex-row  bg-gray-100 ">
+      {/* sidedbar */}
+      <div>
+<Sidebar/>
+      </div>
+      {/* upload file */}
+      <div className="flex flex-col items-center p-8 bg-gray-100 rounded-md shadow-md w-[800px] ">
       <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-        Admin Upload
+         Upload Guidances
       </h2>
+      <h3>Upload the presentation guidances as the video or document</h3>
       {message && <p className="mb-4 text-sm text-red-600">{message}</p>}
 
       <form onSubmit={handleUpload} className="flex flex-col w-full">
@@ -119,7 +127,7 @@ const AdminFileUpload = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
+          className="w-full bg-orange-600 text-white py-2 rounded-md hover:bg-orange-700 transition duration-200"
         >
           Upload
         </button>
@@ -166,6 +174,7 @@ const AdminFileUpload = () => {
           ))
         )}
       </div>
+    </div>
     </div>
   );
 };
