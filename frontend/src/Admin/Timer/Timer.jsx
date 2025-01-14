@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const socket = io(`${import.meta.env.VITE_BACKEND_URL}`);
 
 function Timer() {
   const [countdown, setCountdown] = useState({ time: 0, isRunning: false });
