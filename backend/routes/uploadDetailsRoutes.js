@@ -50,20 +50,6 @@ router.post("/upload-presentation", upload.single("file"), async (req, res) => {
   }
 });
 
-// router.get("/search-presentation", async (req, res) => {
-//   const { id } = req.query;
-
-//   try {
-//     const presentation = await Presentation.findOne({ "groupMembers.id": id });
-//     if (!presentation) {
-//       return res.status(404).json({ message: "Presentation not found" });
-//     }
-//     res.status(200).json(presentation);
-//   } catch (error) {
-//     console.error("Error searching presentation:", error);
-//     res.status(500).json({ message: "Error occurred", error });
-//   }
-// });
 router.get("/search-presentation", async (req, res) => {
   const { id } = req.query;
 
@@ -78,7 +64,6 @@ router.get("/search-presentation", async (req, res) => {
     res.status(500).json({ message: "Error occurred", error });
   }
 });
-
 router.get("/", async (req, res) => {
   try {
     const presentations = await Presentation.find();
