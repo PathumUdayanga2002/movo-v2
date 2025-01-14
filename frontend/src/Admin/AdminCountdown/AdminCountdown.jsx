@@ -4,7 +4,7 @@ import { FaPlay, FaStop, FaRedoAlt, FaRegClock } from "react-icons/fa"; // Added
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar"; // Circular progress bar
 import "react-circular-progressbar/dist/styles.css"; // Import default styles
 
-const socket = io("http://localhost:5000");
+const socket = io(`${import.meta.env.VITE_BACKEND_URL}`);
 
 const AdminCountdown = () => {
   const [time, setTime] = useState(0);

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 
 const ViwePresentation = () => {
@@ -8,7 +7,7 @@ const ViwePresentation = () => {
 
   // Fetch all uploaded presentations on component load
   useEffect(() => {
-    fetch("http://localhost:5000/api/upload-details")
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/upload-details`)
       .then((res) => res.json())
       .then((data) => setPresentations(data))
       .catch((err) => console.error("Error fetching presentations:", err));
@@ -17,7 +16,7 @@ const ViwePresentation = () => {
   // Search presentation by presenter ID
   const handleSearch = () => {
     fetch(
-      `http://localhost:5000/api/upload-details/search-presentation?id=${searchId}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/upload-details/search-presentation?id=${searchId}`
     )
       .then((res) => {
         if (!res.ok) {
@@ -85,39 +84,17 @@ const ViwePresentation = () => {
             </p>
             <p>
               <strong>File:</strong>{" "}
-              {/* <a
-                href={`/uploads/${filteredPresentation.file}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 underline"
-              >
-                View File
-              </a> */}
-              {/* <a
-                href={`http://localhost:5000/uploads/${filteredPresentation.file}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 underline"
-              >
-                View File
-              </a> */}
-              {/* <a
-                href={`http://localhost:5000/uploads/${presentation.file}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 underline"
-              >
-                View File
-              </a> */}
-              <a
-                href={`http://localhost:5000/uploads/${presentation.file}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <button className="bg-blue-500 text-white p-2 rounded">
-                  View Document
-                </button>
-              </a>
+              {filteredPresentation.file && (
+                <a
+                  href={`${import.meta.env.VITE_BACKEND_URL}/uploads/${filteredPresentation.file}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <button className="bg-blue-500 text-white p-2 rounded">
+                    View Document
+                  </button>
+                </a>
+              )}
             </p>
           </div>
         </div>
@@ -163,14 +140,16 @@ const ViwePresentation = () => {
                         <strong>Description:</strong> {presentation.description}
                       </p>
                     </div>
-                    <a
-                      href={`/uploads/${presentation.file}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 underline"
-                    >
-                      View File
-                    </a>
+                    {presentation.file && (
+                      <a
+                        href={`${import.meta.env.VITE_BACKEND_URL}/uploads/${presentation.file}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 underline"
+                      >
+                        View File
+                      </a>
+                    )}
                   </div>
                 ))}
             </div>
@@ -204,14 +183,16 @@ const ViwePresentation = () => {
                         <strong>Description:</strong> {presentation.description}
                       </p>
                     </div>
-                    <a
-                      href={`/uploads/${presentation.file}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 underline"
-                    >
-                      View File
-                    </a>
+                    {presentation.file && (
+                      <a
+                        href={`${import.meta.env.VITE_BACKEND_URL}/uploads/${presentation.file}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 underline"
+                      >
+                        View File
+                      </a>
+                    )}
                   </div>
                 ))}
             </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import axios from "axios";
 const AdminFileUpload = () => {
   const [file, setFile] = useState(null);
   const [type, setType] = useState("document");
@@ -11,7 +11,7 @@ const AdminFileUpload = () => {
   
     const fetchFiles = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/files");
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/files`);
         const data = await response.json();
 
         if (Array.isArray(data)) {
@@ -41,7 +41,7 @@ const AdminFileUpload = () => {
     formData.append("type", type);
 
     try {
-      const response = await fetch("http://localhost:5000/api/files/upload", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/files/upload`, {
         method: "POST",
         headers: {
           Authorization: "Bearer admin-token", // Replace with real token logic
@@ -66,7 +66,7 @@ const AdminFileUpload = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/files/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/files/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: "Bearer admin-token", // Replace with real token logic
@@ -87,7 +87,9 @@ const AdminFileUpload = () => {
 
   return (
     <div className="flex flex-col items-center p-8 bg-gray-100 rounded-md shadow-md max-w-lg mx-auto">
-      <h2 className="text-2xl font-semibold text-gray-700 mb-4">Admin Upload</h2>
+      <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+        Admin Upload
+      </h2>
       {message && <p className="mb-4 text-sm text-red-600">{message}</p>}
 
       <form onSubmit={handleUpload} className="flex flex-col w-full">
@@ -110,7 +112,7 @@ const AdminFileUpload = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
+          className="w-full bg-orange-600 text-white py-2 rounded-md hover:bg-orange-700 transition duration-200"
         >
           Upload
         </button>
@@ -121,25 +123,24 @@ const AdminFileUpload = () => {
         {files.length === 0 ? (
           <p className="text-gray-500 text-center mt-4">No files available</p>
         ) : (
-          <div className="space-y-4">
-            {files.map((file) => (
-              <div key={file._id} className="mb-4 p-4 border rounded-md bg-white">
-                <h4 className="font-semibold text-gray-700">{file.name}</h4>
-                {file.type === "video" ? (
-                  <video className="mt-2" width="100%" controls>
-                    <source
-                      src={`http://localhost:5000${file.url}`}
-                      type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                  </video>
-                ) : file.type === "document" ? (
-                  <a
-                    href={`http://localhost:5000${file.url}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 underline mt-2 block"
-                  >
+          files.map((file) => (
+            <div key={file._id} className="mb-4 p-4 border rounded-md bg-white">
+              <h4 className="font-semibold text-gray-700">{file.name}</h4>
+              {file.type === "video" ? (
+                <video width="600" controls>
+                  <source
+                    src={`http://localhost:5000${file.url}`}
+                    type="video/mp4"
+                  />
+                  Your browser does not support the video tag.
+                </video>
+              ) : file.type === "document" ? (
+                <a
+                  href={`http://localhost:5000${file.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <button className="bg-blue-500 text-white p-2 rounded mt-2">
                     View Document
                   </a>
                 ) : (
@@ -157,6 +158,7 @@ const AdminFileUpload = () => {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 };

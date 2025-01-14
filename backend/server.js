@@ -41,6 +41,19 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/email", emailRoutes);
 app.use("/api/upload-details", uploadDetailsRoutes);
 
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"]
+  })
+);
+app.use("/uploads", express.static("uploads"));
+
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
+});
+
 // Route to handle audio uploads and transcription with AssemblyAI
 app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
   try {
