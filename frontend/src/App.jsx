@@ -20,6 +20,8 @@ import Login from "./components/Login/Login";
 import MyCalendar from "./components/MyCalendar/MyCalendar";
 import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoard";
 import EmailSender from "./Admin/Email/EmailSender";
+import AiBot from "./components/AiBot/AiBot";
+import VideoGuide from "./Presenter/VideoGuide/VideoGuide";
 
 const App = () => {
   const isAuthenticated = () => !!localStorage.getItem("token");
