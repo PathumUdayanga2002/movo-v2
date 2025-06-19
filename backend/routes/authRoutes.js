@@ -1,5 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 const User = require("../models/user");
 const router = express.Router();
 require("dotenv").config();
@@ -7,12 +8,18 @@ require("dotenv").config();
 const JWT_SECRET = process.env.JWT_CODE;
 
 router.post("/register-admin", async (req, res) => {
-  const { id, name, email, password } = req.body;
+  const { name, email, password } = req.body;
 
   try {
-    const user = new User({ id, name, email, password, role: "admin" });
+    const user = new User({
+      id: new mongoose.Types.ObjectId().toString(),
+      name,
+      email,
+      password,
+      role: "admin"
+    });
     await user.save();
-    res.status(201).json({ massage: "Admin created successfully....!" });
+    res.status(201).json({ message: "Admin created successfully....!", id: user.id });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

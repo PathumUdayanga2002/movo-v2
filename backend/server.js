@@ -29,6 +29,8 @@ const countdownRoutes = require("./routes/countdownRoutes");
 const fileRoutes = require("./routes/fileRoutes");
 const emailRoutes = require("./routes/emailRoutes");
 const uploadDetailsRoutes = require("./routes/uploadDetailsRoutes");
+const scheduleRoutes = require('./routes/scheduleRoutes'); // Add this line
+const Schedule = require('./models/schedule'); // Import Schedule model
 
 
 
@@ -40,6 +42,7 @@ app.use("/api/files", fileRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/email", emailRoutes);
 app.use("/api/upload-details", uploadDetailsRoutes);
+app.use('/api/schedules', scheduleRoutes); // Add this line
 
 
 app.use(
@@ -113,65 +116,122 @@ app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
   }
 });
 
-// Socket.IO server setup
+// Socket.IO setup
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST", "PATCH"],
-  },
+    origin: "*", // Adjust for production
+    methods: ["GET", "POST"]
+  }
 });
 
-app.use((req, res, next) => {
-  req.io = io;
-  next();
-});
+const presentationTimers = {}; // Store timers for active presentations { presentationId: { intervalId, timeLeft, adminSocketId } }
 
-let countdown = {
-  time: 0,
-  isRunning: false,
-};
-let timerInterval = null;
+io.on('connection', (socket) => {
+  console.log('a user connected:', socket.id);
 
-io.on("connection", (socket) => {
-  console.log("A user connected");
+  // Join presentation room
+  socket.on('join_presentation', async (presentationId) => {
+    try {
+      const schedule = await Schedule.findOne({ presentationId });
+      if (!schedule) {
+        socket.emit('join_error', 'Invalid Presentation ID');
+        return;
+      }
+      // TODO: Add validation to check if user (admin/presenter) is allowed to join this specific presentation
 
-  socket.emit("updateCountdown", countdown);
+      socket.join(presentationId);
+      console.log(`User ${socket.id} joined room ${presentationId}`);
+      socket.emit('joined_successfully', presentationId);
 
-  socket.on("startCountdown", () => {
-    if (!countdown.isRunning) {
-      countdown.isRunning = true;
-      io.emit("updateCountdown", countdown);
-      timerInterval = setInterval(() => {
-        if (countdown.time > 0) {
-          countdown.time -= 1;
-          io.emit("updateCountdown", countdown);
+      // If a timer is already running for this room, send the current time
+      if (presentationTimers[presentationId] && presentationTimers[presentationId].intervalId) {
+        socket.emit('time_update', presentationTimers[presentationId].timeLeft);
+      }
+
+    } catch (error) {
+      console.error('Error joining presentation:', error);
+      socket.emit('join_error', 'Server error while joining presentation.');
+    }
+  });
+
+  // Admin starts the presentation timer
+  socket.on('start_timer', async ({ presentationId }) => {
+    // TODO: Add validation to ensure only the admin for this presentation can start the timer
+    // Example validation (requires knowing user role from socket connection, e.g., via auth middleware for sockets):
+    // if (socket.userRole !== 'admin') { 
+    //   return socket.emit('timer_error', 'Only admins can start the timer.');
+    // }
+
+    try {
+      const schedule = await Schedule.findOne({ presentationId });
+      if (!schedule) {
+        socket.emit('timer_error', 'Presentation schedule not found.');
+        return;
+      }
+
+      // Check if the user starting the timer is associated with this schedule (e.g., the assigned admin or a general admin)
+      // This check needs refinement based on how admins are associated with schedules
+
+      if (presentationTimers[presentationId] && presentationTimers[presentationId].intervalId) {
+        // Optional: Allow admin to restart? For now, prevent multiple starts.
+        socket.emit('timer_error', 'Timer already running for this presentation.');
+        return;
+      }
+
+      let timeLeft = schedule.duration * 60; // Convert duration (minutes) to seconds
+      presentationTimers[presentationId] = {
+        intervalId: null,
+        timeLeft: timeLeft,
+        adminSocketId: socket.id // Store admin socket ID for potential future checks
+      };
+
+      console.log(`Timer started for ${presentationId} with duration ${timeLeft} seconds by ${socket.id}`);
+      // Emit to specific room
+      io.to(presentationId).emit('timer_started', timeLeft);
+
+      const intervalId = setInterval(() => {
+        if (presentationTimers[presentationId]) {
+          presentationTimers[presentationId].timeLeft -= 1;
+          timeLeft = presentationTimers[presentationId].timeLeft;
+          // Emit to specific room
+          io.to(presentationId).emit('time_update', timeLeft);
+
+          if (timeLeft <= 0) {
+            clearInterval(presentationTimers[presentationId].intervalId);
+            io.to(presentationId).emit('timer_finished');
+            console.log(`Timer finished for ${presentationId}`);
+            delete presentationTimers[presentationId]; // Clean up
+          }
         } else {
-          clearInterval(timerInterval);
-          countdown.isRunning = false;
-          io.emit("updateCountdown", countdown);
+             // This case handles if the presentation was somehow deleted while timer running
+             clearInterval(intervalId);
+             console.log(`Timer interval cleared for ${presentationId} due to missing timer data.`);
         }
       }, 1000);
+
+      presentationTimers[presentationId].intervalId = intervalId;
+
+    } catch (error) {
+      console.error('Error starting timer:', error);
+      socket.emit('timer_error', 'Server error while starting timer.');
     }
   });
 
-  socket.on("stopCountdown", () => {
-    if (countdown.isRunning) {
-      countdown.isRunning = false;
-      clearInterval(timerInterval);
-      io.emit("updateCountdown", countdown);
-    }
-  });
-
-  socket.on("setCountdown", (newTime) => {
-    countdown.time = newTime;
-    countdown.isRunning = false;
-    clearInterval(timerInterval);
-    io.emit("updateCountdown", countdown);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("A user disconnected");
+  // Handle disconnection
+  socket.on('disconnect', () => {
+    console.log('user disconnected:', socket.id);
+    // Optional: Clean up timer if the admin who started it disconnects?
+    // Example: Find which presentation timer this socket ID belongs to (if admin) and clear it.
+    // for (const presentationId in presentationTimers) {
+    //   if (presentationTimers[presentationId].adminSocketId === socket.id) {
+    //     console.log(`Admin ${socket.id} disconnected, stopping timer for ${presentationId}`);
+    //     clearInterval(presentationTimers[presentationId].intervalId);
+    //     io.to(presentationId).emit('timer_stopped_admin_disconnected'); // Inform clients
+    //     delete presentationTimers[presentationId];
+    //     break;
+    //   }
+    // }
   });
 });
 
@@ -191,7 +251,7 @@ connection.once("open", () => {
   console.log("MongoDB connection established successfully");
 });
 
-// Server listener
+// Server listener (using the http server instance for Socket.IO)
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`SERVER RUNNING ON PORT: ${PORT}`);

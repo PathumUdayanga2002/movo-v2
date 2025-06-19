@@ -4,7 +4,6 @@ import sbg from "../../assets/signbg.png";
 import simage from "../../assets/simage.png";
 import axiosInstance from "../../utils/axios";
 const SignInAdmin = () => {
-  const [id, setId] = React.useState("");
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -13,7 +12,6 @@ const SignInAdmin = () => {
     e.preventDefault();
     try {
       const { data } = await axiosInstance.post("/auth/register-admin", {
-        id,
         name,
         email,
         password,
@@ -57,15 +55,7 @@ const SignInAdmin = () => {
             <h1 className="text-3xl font-semibold">Sign Up as a Admin</h1>
             <form className="mt-5">
               <div className="flex flex-col gap-3">
-                <label htmlFor="id">ID</label>
-                <input
-                  className="border-b border-black p-2"
-                  type="text"
-                  placeholder="Enter your presenter ID"
-                  value={id}
-                  onChange={(e) => setId(e.target.value)}
-                  required
-                />
+
                 <label htmlFor="name">Name</label>
                 <input
                   className="border-b border-black p-2"

@@ -1,34 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import lbg from "../../assets/lbg.png";
 import limage from "../../assets/logimage.png";
 import axiosInstance from "../../utils/axios";
+
 const Login = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
+
     try {
       const { data } = await axiosInstance.post("/auth/login", {
         email,
         password,
       });
+
+      // Store user data in localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
       localStorage.setItem("name", data.name);
 
-      if (data.role === "admin") {
-        navigate("/admin-dashboard");
-        console.log("admin dashboard");
-      } else if (data.role === "presenter") {
-        navigate("/presenter-dashboard");
-        console.log("presenter dashboard");
-        console.log(data);
+      // Check role and navigate accordingly
+      const role = data.role;
+      if (role === "admin") {
+        window.location.href = "/admin-dashboard";
+      } else if (role === "presenter") {
+        window.location.href = "/presenter-dashboard";
+      } else {
+        throw new Error("Invalid role");
       }
     } catch (error) {
-      // console.log(error.massage);
-      console.error("Login Failed", error.response.data);
+      setError(
+        error.response?.data?.error || "Login failed. Please check your credentials."
+      );
+      // Clear any potentially corrupted authentication data
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("name");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,14 +73,20 @@ const Login = () => {
           </div>
 
           {/* Form side */}
-          <div>
+          <div className="w-[400px]">
             <h1 className="text-3xl font-semibold">User Login</h1>
-            <form className="mt-5">
+            {error && (
+              <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg">
+                {error}
+              </div>
+            )}
+            <form onSubmit={handleLogin} className="mt-5">
               <div className="flex flex-col gap-3">
                 <label htmlFor="email">Email</label>
                 <input
                   className="border-b border-black p-2"
                   type="email"
+                  id="email"
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -73,20 +96,21 @@ const Login = () => {
                 <input
                   className="border-b border-black p-2"
                   type="password"
+                  id="password"
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className={`w-full px-4 py-2 bg-orange-500 text-white rounded-lg text-center mt-5 hover:bg-orange-600 transition duration-200 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {loading ? "Logging in..." : "Login"}
+              </button>
             </form>
-
-            <button
-              onClick={handleLogin}
-              className="px-4 py-2 bg-orange-500 text-white rounded-lg items-center text-center mt-5 hover:bg-orange-600 transition duration-200"
-            >
-              Login
-            </button>
           </div>
         </div>
       </div>
