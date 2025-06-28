@@ -18,8 +18,18 @@ const AdminCountdown = () => {
     socket.on("updateCountdown", (data) => {
       setTime(data.time);
       setIsRunning(data.isRunning);
-      console.log("time:",time);
+      console.log("time:", data.time);
     });
+
+    // Get initial countdown state
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/set-countdown/get-countdown`)
+      .then(response => response.json())
+      .then(data => {
+        setTime(data.time);
+        setIsRunning(data.isRunning);
+        setTotalTime(data.time > 0 ? data.time : 60); // Set default total time if none exists
+      })
+      .catch(error => console.error("Error fetching countdown:", error));
 
     return () => {
       socket.off("updateCountdown");
@@ -35,9 +45,23 @@ const AdminCountdown = () => {
   };
 
   const handleSetTime = () => {
+    if (!newMinutes && !newSeconds) {
+      alert("Please enter minutes or seconds");
+      return;
+    }
+    
     const timeInSeconds = parseInt(newMinutes || 0) * 60 + parseInt(newSeconds || 0); // Convert minutes and seconds to total seconds
+    if (timeInSeconds <= 0) {
+      alert("Please enter a valid time greater than 0");
+      return;
+    }
+    
     setTotalTime(timeInSeconds); // Update total time for circular progress bar
     socket.emit("setCountdown", timeInSeconds);
+    
+    // Clear input fields after setting time
+    setNewMinutes("");
+    setNewSeconds("");
   };
 
   const handleReset = () => {
@@ -52,7 +76,14 @@ const AdminCountdown = () => {
   };
 
   // Calculate percentage for circular progress bar
-  const percentage = (time / totalTime) * 100;
+  const percentage = totalTime > 0 ? (time / totalTime) * 100 : 0;
+  
+  // Update totalTime when time changes if totalTime is not set
+  useEffect(() => {
+    if (totalTime === 0 && time > 0) {
+      setTotalTime(time);
+    }
+  }, [time, totalTime]);
 
   // Dynamically determine the path color based on remaining time
   const getPathColor = () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import sbg from "../../assets/signbg.png";
 import simage from "../../assets/simage.png";
 import axiosInstance from "../../utils/axios";
@@ -18,6 +18,7 @@ const SignInAdmin = () => {
       });
       console.log("admin registered successfully:", data);
       alert("admin registered successfully!");
+      Navigate("/login")
     } catch (error) {
       console.error(
         "Error registering admin:",

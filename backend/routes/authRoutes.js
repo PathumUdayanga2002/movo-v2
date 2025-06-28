@@ -29,6 +29,18 @@ router.post("/register-presenter", async (req, res) => {
   const { id, name, email, password } = req.body;
 
   try {
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already registered" });
+    }
+    
+    // Check if ID already exists
+    const existingId = await User.findOne({ id });
+    if (existingId) {
+      return res.status(400).json({ message: "ID already in use" });
+    }
+
     const user = new User({
       id,
       name,
@@ -37,9 +49,10 @@ router.post("/register-presenter", async (req, res) => {
       role: "presenter",
     });
     await user.save();
-    res.status(201).json({ massage: "Presenter created successfully....!" });
+    res.status(201).json({ message: "Presenter created successfully!" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Presenter registration error:", error);
+    res.status(500).json({ message: "Failed to register presenter. Please try again.", error: error.message });
   }
 });
 

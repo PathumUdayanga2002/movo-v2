@@ -235,24 +235,62 @@ io.on('connection', (socket) => {
   });
 });
 
-// MongoDB connection setup
-const URL = process.env.MONGODB_URL;
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(() => {
+    console.log("Connected to MongoDB");
+    const server = http.createServer(app);
+    const io = new Server(server, {
+      cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+      },
+    });
 
-mongoose.connect(URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log("MongoDB connected successfully..."))
-  .catch((err) => console.log(err.message));
+    // Middleware to attach io to req object
+    app.use((req, res, next) => {
+      req.io = io;
+      next();
+    });
 
-const connection = mongoose.connection;
+    // Socket.io connection handling
+    io.on("connection", (socket) => {
+      console.log("A user connected");
 
-connection.once("open", () => {
-  console.log("MongoDB connection established successfully");
-});
+      // Handle countdown events from client
+      socket.on("startCountdown", () => {
+        axios.patch(`${process.env.BACKEND_URL || 'http://localhost:5000'}/api/set-countdown/countdown/start`)
+          .then(() => console.log("Countdown started"))
+          .catch(err => console.error("Error starting countdown:", err));
+      });
+
+      socket.on("stopCountdown", () => {
+        axios.patch(`${process.env.BACKEND_URL || 'http://localhost:5000'}/api/set-countdown/countdown/stop`)
+          .then(() => console.log("Countdown stopped"))
+          .catch(err => console.error("Error stopping countdown:", err));
+      });
+
+      socket.on("setCountdown", (timeInSeconds) => {
+        axios.post(`${process.env.BACKEND_URL || 'http://localhost:5000'}/api/set-countdown/countdown`, { time: timeInSeconds })
+          .then(() => console.log(`Countdown set to ${timeInSeconds} seconds`))
+          .catch(err => console.error("Error setting countdown:", err));
+      });
+
+      socket.on("resetCountdown", (timeInSeconds) => {
+        axios.post(`${process.env.BACKEND_URL || 'http://localhost:5000'}/api/set-countdown/countdown/reset`, { time: timeInSeconds })
+          .then(() => console.log(`Countdown reset to ${timeInSeconds} seconds`))
+          .catch(err => console.error("Error resetting countdown:", err));
+      });
+
+      socket.on("disconnect", () => {
+        console.log("User disconnected");
+      });
+    });
 
 // Server listener (using the http server instance for Socket.IO)
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log(`SERVER RUNNING ON PORT: ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
+  }).catch((err) => console.log("MongoDB connection error:", err.message));

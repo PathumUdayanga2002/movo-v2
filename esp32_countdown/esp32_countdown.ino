@@ -37,18 +37,28 @@ void loop() {
 
   // Process complete message
   if (stringComplete) {
-    currentTime = inputString.toInt();
+    // Convert string to integer, handle potential errors
+    int newTime = inputString.toInt();
     
-    // Display the time
-    int minutes = currentTime / 60;
-    int seconds = currentTime % 60;
-    int displayValue = minutes * 100 + seconds;
-    
-    // Update display with colon
-    display.showNumberDecEx(displayValue, 0x40, true);
-    
-    // Send acknowledgment
-    Serial.println("OK");
+    // Only update if we received a valid time value
+    if (newTime >= 0) {
+      currentTime = newTime;
+      
+      // Display the time
+      int minutes = currentTime / 60;
+      int seconds = currentTime % 60;
+      int displayValue = minutes * 100 + seconds;
+      
+      // Update display with colon
+      display.showNumberDecEx(displayValue, 0x40, true);
+      
+      // Send acknowledgment with the time value received
+      Serial.print("OK: ");
+      Serial.println(currentTime);
+    } else {
+      // Send error for invalid input
+      Serial.println("ERROR: Invalid time value");
+    }
     
     // Clear for next message
     inputString = "";
