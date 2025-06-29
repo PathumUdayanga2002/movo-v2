@@ -50,7 +50,8 @@ const PresenterDashBoard = () => {
                 </div>
               </Link>
               {/* upload card */}
-              <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] ">
+             <Link to={"/presenter/uploda-presentation"}>
+             <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] cursor-pointer hover:scale-105 ">
                 <div className="flex flex-row gap-2">
                   {/* paragraph and topic */}
                   <div className="flex flex-col gap-4">
@@ -70,6 +71,8 @@ const PresenterDashBoard = () => {
                   </div>
                 </div>
               </div>
+             </Link>
+               
               {/* guidance of presentatoin card */}
               <Link to={"/presenter-view-guidances"}>
                 <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] cursor-pointer hover:scale-105">

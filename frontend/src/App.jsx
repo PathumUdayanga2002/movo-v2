@@ -95,6 +95,16 @@ const App = () => {
             }
           />
           <Route
+            path="/presenter/uploda-presentation"
+            element={
+              isAuthenticated() ? (
+                <UploadPresentation/>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
             path="/presenter-dashboard"
             element={
               isAuthenticated() ? (
