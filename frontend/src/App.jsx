@@ -23,6 +23,12 @@ import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoa
 import EmailSender from "./Admin/Email/EmailSender";
 import AiBot from "./components/AiBot/AiBot";
 import VideoGuide from "./Presenter/VideoGuide/VideoGuide";
+import { NotificationProvider, NotificationPanel } from "./components/SIdebar/Notifications";
+import { Profile } from "./components/SIdebar/Profile";
+import { Settings } from "./components/SIdebar/Settings";
+import { HelpCenter } from "./components/SIdebar/HelpCenter";
+import SidebarFeaturesDemo from "./components/SIdebar/SidebarFeaturesDemo";
+import AppLayout from "./components/SIdebar/AppLayout";
 
 // Vertex AI Chat Agent Component that will be used inside Router context
 const VertexAIChatAgent = () => {
@@ -74,111 +80,158 @@ const VertexAIChatAgent = () => {
 
 // AppContent component that will be rendered inside Router context
 const AppContent = () => {
+  const location = useLocation();
   const isAuthenticated = () => !!localStorage.getItem("token");
+  
+  // Define routes that should NOT show the sidebar (already have their own sidebar or no sidebar needed)
+  const noSidebarRoutes = [
+    "/", 
+    "/login", 
+    "/register-admin", 
+    "/register-presenter",
+    "/dashboard", // PresenterDashBoard has its own sidebar
+    "/presenter-dashboard", // PresenterDashBoard has its own sidebar  
+    "/admin-dashboard", // AdminDashboard has its own sidebar
+    "/admin-upload-file", // AdminFileUpload has its own sidebar
+    "/email/send-message", // EmailSender has its own sidebar
+    "/presenter-view-guidances", // UserFileViwe has its own sidebar
+    "/presenter/VideoGuide", // VideoGuide has its own sidebar
+  ];
+  const shouldShowSidebar = isAuthenticated() && !noSidebarRoutes.includes(location.pathname);
+  
+  const routeContent = (
+    <Routes>
+      <Route path="/dashboard" element={<PresenterDashBoard />} />
+      <Route path="/calendar" element={<MyCalendar />} />
+      <Route
+        path="/notifications"
+        element={isAuthenticated() ? <NotificationPanel /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/profile"
+        element={isAuthenticated() ? <Profile /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/settings"
+        element={isAuthenticated() ? <Settings /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/help"
+        element={isAuthenticated() ? <HelpCenter /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/sidebar-demo"
+        element={isAuthenticated() ? <SidebarFeaturesDemo /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/email/send-message"
+        element={isAuthenticated() ? <EmailSender/> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/presenter/train-with-ai"
+        element={isAuthenticated() ? <AiBot /> : <Navigate to="/login" />}
+      /> 
+      
+      {/*  Admin Routes */}
+      <Route
+        path="/admin-upload-file"
+        element={
+          isAuthenticated() ? (
+          <AdminFileUpload/>
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      />
+             <Route
+        path="/admin-dashboard"
+        element={
+          isAuthenticated() ? <AdminDashboard /> : <Navigate to="/login" />
+        }
+      />
+      <Route
+        path="/admin/start-presentation"
+        element={
+          isAuthenticated() ? 
+          <AdminCountdown /> : <Navigate to="/login" />
+        }
+      />
+      
+      <Route
+        path="/viwe-presentation"
+        element={
+          isAuthenticated() ? (
+          <ViwePresentation/>
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      />
+
+      {/* presenter routes */}
+      <Route
+        path="/presenter-view-guidances"
+        element={
+          isAuthenticated() ? (
+            <UserFileViwe/>
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      />
+      <Route
+        path="/presenter/uploda-presentation"
+        element={
+          isAuthenticated() ? (
+            <UploadPresentation/>
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      />
+      <Route
+        path="/presenter-dashboard"
+        element={
+          isAuthenticated() ? (
+            <PresenterDashBoard />
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      />
+
+      <Route
+        path="/presenter/join-presentation"
+        element={
+          isAuthenticated() ? 
+          <UserCountdown/> : <Navigate to="/login" />
+        }
+      />
+      <Route
+        path="/presenter/VideoGuide"
+        element={
+          isAuthenticated() ? 
+          <VideoGuide/> : <Navigate to="/login" />
+        }
+      />
+      
+      <Route path="/login" element={<Login />} />
+      <Route path="/register-admin" element={<SignInAdmin />} />
+      <Route path="/register-presenter" element={<SigninPresenter />} />
+      <Route path="/" element={<Home />} />
+    </Routes>
+  );
   
   return (
     <>
       <VertexAIChatAgent />
-      <Routes>
-        <Route path="/calendar" element={<MyCalendar />} />
-        <Route
-          path="/email/send-message"
-          element={isAuthenticated() ? <EmailSender/> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/presenter/train-with-ai"
-          element={isAuthenticated() ? <AiBot /> : <Navigate to="/login" />}
-        /> 
-        
-        {/*  Admin Routes */}
-        <Route
-          path="/admin-upload-file"
-          element={
-            isAuthenticated() ? (
-            <AdminFileUpload/>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-               <Route
-          path="/admin-dashboard"
-          element={
-            isAuthenticated() ? <AdminDashboard /> : <Navigate to="/login" />
-          }
-        />
-        <Route
-          path="/admin/start-presentation"
-          element={
-            isAuthenticated() ? 
-            <AdminCountdown /> : <Navigate to="/login" />
-          }
-        />
-        
-        <Route
-          path="/viwe-presentation"
-          element={
-            isAuthenticated() ? (
-            <ViwePresentation/>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-
-        {/* presenter routes */}
-        <Route
-          path="/presenter-view-guidances"
-          element={
-            isAuthenticated() ? (
-              <UserFileViwe/>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
-          path="/presenter/uploda-presentation"
-          element={
-            isAuthenticated() ? (
-              <UploadPresentation/>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
-          path="/presenter-dashboard"
-          element={
-            isAuthenticated() ? (
-              <PresenterDashBoard />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
- 
-        <Route
-          path="/presenter/join-presentation"
-          element={
-            isAuthenticated() ? 
-            <UserCountdown/> : <Navigate to="/login" />
-          }
-        />
-        <Route
-          path="/presenter/VideoGuide"
-          element={
-            isAuthenticated() ? 
-            <VideoGuide/> : <Navigate to="/login" />
-          }
-        />
-        
-        <Route path="/login" element={<Login />} />
-        <Route path="/register-admin" element={<SignInAdmin />} />
-        <Route path="/register-presenter" element={<SigninPresenter />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
+      {shouldShowSidebar ? (
+        <AppLayout>
+          {routeContent}
+        </AppLayout>
+      ) : (
+        routeContent
+      )}
     </>
   );
 };
@@ -187,7 +240,9 @@ const App = () => {
   return (
     <div>
       <Router>
-        <AppContent />
+        <NotificationProvider>
+          <AppContent />
+        </NotificationProvider>
       </Router>
     </div>
   );
