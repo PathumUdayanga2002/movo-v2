@@ -240,7 +240,11 @@ mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => {
     console.log("Connected to MongoDB");
+    
+    // Create a single HTTP server instance
     const server = http.createServer(app);
+    
+    // Create a single Socket.IO instance
     const io = new Server(server, {
       cors: {
         origin: "*",
@@ -260,27 +264,44 @@ mongoose
 
       // Handle countdown events from client
       socket.on("startCountdown", () => {
-        axios.patch(`${process.env.BACKEND_URL || 'http://localhost:5000'}/api/set-countdown/countdown/start`)
-          .then(() => console.log("Countdown started"))
-          .catch(err => console.error("Error starting countdown:", err));
+        // Call the API directly instead of using axios to avoid potential circular requests
+        try {
+          const countdownController = require('./controllers/countdownController');
+          countdownController.startCountdown({ io }, { status: () => ({ send: () => {} }) });
+          console.log("Countdown started");
+        } catch (err) {
+          console.error("Error starting countdown:", err);
+        }
       });
 
       socket.on("stopCountdown", () => {
-        axios.patch(`${process.env.BACKEND_URL || 'http://localhost:5000'}/api/set-countdown/countdown/stop`)
-          .then(() => console.log("Countdown stopped"))
-          .catch(err => console.error("Error stopping countdown:", err));
+        try {
+          const countdownController = require('./controllers/countdownController');
+          countdownController.stopCountdown({ io }, { status: () => ({ send: () => {} }) });
+          console.log("Countdown stopped");
+        } catch (err) {
+          console.error("Error stopping countdown:", err);
+        }
       });
 
       socket.on("setCountdown", (timeInSeconds) => {
-        axios.post(`${process.env.BACKEND_URL || 'http://localhost:5000'}/api/set-countdown/countdown`, { time: timeInSeconds })
-          .then(() => console.log(`Countdown set to ${timeInSeconds} seconds`))
-          .catch(err => console.error("Error setting countdown:", err));
+        try {
+          const countdownController = require('./controllers/countdownController');
+          countdownController.setCountdown({ io, body: { time: timeInSeconds } }, { status: () => ({ send: () => {} }) });
+          console.log(`Countdown set to ${timeInSeconds} seconds`);
+        } catch (err) {
+          console.error("Error setting countdown:", err);
+        }
       });
 
       socket.on("resetCountdown", (timeInSeconds) => {
-        axios.post(`${process.env.BACKEND_URL || 'http://localhost:5000'}/api/set-countdown/countdown/reset`, { time: timeInSeconds })
-          .then(() => console.log(`Countdown reset to ${timeInSeconds} seconds`))
-          .catch(err => console.error("Error resetting countdown:", err));
+        try {
+          const countdownController = require('./controllers/countdownController');
+          countdownController.resetCountdown({ io, body: { time: timeInSeconds } }, { status: () => ({ send: () => {} }) });
+          console.log(`Countdown reset to ${timeInSeconds} seconds`);
+        } catch (err) {
+          console.error("Error resetting countdown:", err);
+        }
       });
 
       socket.on("disconnect", () => {

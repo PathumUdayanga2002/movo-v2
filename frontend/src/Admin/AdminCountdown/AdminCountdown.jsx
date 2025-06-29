@@ -4,7 +4,9 @@ import { FaPlay, FaStop, FaRedoAlt, FaRegClock } from "react-icons/fa"; // Added
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar"; // Circular progress bar
 import "react-circular-progressbar/dist/styles.css"; // Import default styles
 
-const socket = io(`${import.meta.env.VITE_BACKEND_URL}`);
+// Create socket connection outside component to prevent multiple connections
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const socket = io(BACKEND_URL);
 
 const AdminCountdown = () => {
   const [time, setTime] = useState(0);
@@ -12,19 +14,40 @@ const AdminCountdown = () => {
   const [newMinutes, setNewMinutes] = useState("");
   const [newSeconds, setNewSeconds] = useState("");
   const [totalTime, setTotalTime] = useState(0); // To store the total time for progress bar
+  const [socketConnected, setSocketConnected] = useState(false);
 
   useEffect(() => {
+    console.log("Connecting to socket server at:", BACKEND_URL);
+    
+    // Handle socket connection events
+    socket.on('connect', () => {
+      console.log('Socket connected with ID:', socket.id);
+      setSocketConnected(true);
+    });
+    
+    socket.on('connect_error', (error) => {
+      console.error('Socket connection error:', error);
+      setSocketConnected(false);
+    });
+
     // Listen for updates from the server
     socket.on("updateCountdown", (data) => {
+      console.log("Received countdown update:", data);
       setTime(data.time);
       setIsRunning(data.isRunning);
-      console.log("time:", data.time);
+      
+      // If this is a new timer setting (not just a tick down), update totalTime
+      if (!isRunning && data.isRunning && data.time > 0) {
+        setTotalTime(data.time);
+      }
     });
 
     // Get initial countdown state
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/set-countdown/get-countdown`)
+    console.log("Fetching initial countdown state from:", `${BACKEND_URL}/api/set-countdown/get-countdown`);
+    fetch(`${BACKEND_URL}/api/set-countdown/get-countdown`)
       .then(response => response.json())
       .then(data => {
+        console.log("Initial countdown data:", data);
         setTime(data.time);
         setIsRunning(data.isRunning);
         setTotalTime(data.time > 0 ? data.time : 60); // Set default total time if none exists
@@ -32,15 +55,20 @@ const AdminCountdown = () => {
       .catch(error => console.error("Error fetching countdown:", error));
 
     return () => {
+      // Clean up event listeners
       socket.off("updateCountdown");
+      socket.off("connect");
+      socket.off("connect_error");
     };
   }, []);
 
   const handleStart = () => {
+    console.log("Starting countdown");
     socket.emit("startCountdown");
   };
 
   const handleStop = () => {
+    console.log("Stopping countdown");
     socket.emit("stopCountdown");
   };
 
@@ -56,6 +84,7 @@ const AdminCountdown = () => {
       return;
     }
     
+    console.log("Setting countdown to", timeInSeconds, "seconds");
     setTotalTime(timeInSeconds); // Update total time for circular progress bar
     socket.emit("setCountdown", timeInSeconds);
     
@@ -65,7 +94,7 @@ const AdminCountdown = () => {
   };
 
   const handleReset = () => {
-    setTime(totalTime); // Reset the timer to the initially set total time
+    console.log("Resetting countdown to", totalTime, "seconds");
     socket.emit("resetCountdown", totalTime);
   };
 

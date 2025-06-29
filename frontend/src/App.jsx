@@ -46,6 +46,7 @@ const App = () => {
             element={isAuthenticated() ? <AiBot /> : <Navigate to="/login" />}
           /> 
           
+          {/*  Admin Routes */}
           <Route
             path="/admin-upload-file"
             element={
@@ -56,6 +57,33 @@ const App = () => {
               )
             }
           />
+                 <Route
+            path="/admin-dashboard"
+            element={
+              isAuthenticated() ? <AdminDashboard /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/admin/start-presentation"
+            element={
+              isAuthenticated() ? 
+              <AdminCountdown /> : <Navigate to="/login" />
+            }
+          />
+          
+          <Route
+            path="/viwe-presentation"
+            element={
+              isAuthenticated() ? (
+              <ViwePresentation/>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+
+
+          {/* presenter routes */}
           <Route
             path="/presenter-view-guidances"
             element={
@@ -76,19 +104,7 @@ const App = () => {
               )
             }
           />
-          <Route
-            path="/admin-dashboard"
-            element={
-              isAuthenticated() ? <AdminDashboard /> : <Navigate to="/login" />
-            }
-          />
-          <Route
-            path="/admin/start-presentation"
-            element={
-              isAuthenticated() ? 
-              <AdminCountdown /> : <Navigate to="/login" />
-            }
-          />
+   
           <Route
             path="/presenter/join-presentation"
             element={
@@ -103,6 +119,7 @@ const App = () => {
               <VideoGuide/> : <Navigate to="/login" />
             }
           />
+          
           <Route path="/login" element={<Login />} />
           <Route path="/register-admin" element={<SignInAdmin />} />
           <Route path="/register-presenter" element={<SigninPresenter />} />
