@@ -11,6 +11,9 @@ import aichat from "../../assets/images/aichat.jpg";
 import guideVideo from "../../assets/images/guideVideo.png";
 import myPresentation from "../../assets/images/mypresentation.webp";
 import uploadDetails from "../../assets/images/uploadDetails.png";
+import ChatbotFloatingButton from "../ChatbotFloatingButton/ChatbotFloatingButton";
+
+
 
 const PresenterDashBoard = () => {
   return (
@@ -129,7 +132,8 @@ const PresenterDashBoard = () => {
           </div>
         </div>
       </div>
-    </div>
+      <ChatbotFloatingButton/>
+          </div>
   );
 };
 
