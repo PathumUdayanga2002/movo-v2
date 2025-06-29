@@ -27,7 +27,14 @@ const Sidebar = ({ onToggle, isMobile }) => {
     <div className="w-72 bg-white shadow-lg h-screen font-poppins flex flex-col overflow-y-auto sidebar-font sidebar-scrollbar">
       {/* Logo Section */}
       <div className="p-6 border-b border-gray-100 flex-shrink-0">
-        <h2 className="text-4xl font-bold text-orange-500 text-center tracking-tight">MOVO</h2>
+        <Link 
+          to="/dashboard" 
+          className="block text-center group sidebar-focus rounded-lg"
+        >
+          <h2 className="text-4xl font-bold text-orange-500 tracking-tight transition-all duration-200 group-hover:text-orange-600 group-hover:scale-105">
+            MOVO
+          </h2>
+        </Link>
       </div>
       
       {/* Navigation */}
