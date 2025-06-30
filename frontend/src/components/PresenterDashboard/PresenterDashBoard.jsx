@@ -13,6 +13,8 @@ import myPresentation from "../../assets/images/mypresentation.webp";
 import uploadDetails from "../../assets/images/uploadDetails.png";
 import ChatbotFloatingButton from "../ChatbotFloatingButton/ChatbotFloatingButton";
 
+const pose_tracking_url= import.meta.env.VITE_POSE_TRACKING_URL;
+
 
 
 const PresenterDashBoard = () => {
@@ -101,13 +103,13 @@ const PresenterDashBoard = () => {
                 </div>
               </Link>
               {/* train with ai chat bot */}
-              <Link to={"/presenter/train-with-ai"}>
+              <Link to={`${pose_tracking_url}`} target="_blank ">
                 <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] cursor-pointer hover:scale-105">
                   <div className="flex flex-row gap-2">
                     {/* paragraph and topic */}
                     <div className="flex flex-col gap-4">
                       <h1 className=" text-xl font-semibold">
-                        Guide with AI chat bot
+                        Guide with AI Vission
                       </h1>
                       <p className=" text-sm text-gray-600">
                         Practice the presentation with AI chat bot
