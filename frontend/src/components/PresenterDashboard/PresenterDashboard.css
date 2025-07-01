@@ -1,0 +1,454 @@
+/* PresenterDashboard.css - Modern Glassmorphism Style */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.presenter-dashboard {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #fed7aa 100%);
+  background-attachment: fixed;
+  display: flex;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Animated background elements */
+.presenter-dashboard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(220, 38, 38, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(254, 215, 170, 0.1) 0%, transparent 50%);
+  animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.presenter-dashboard-content {
+  flex: 1;
+  padding: 0 2rem 2rem;
+  position: relative;
+  z-index: 1;
+  max-width: calc(100vw - 280px);
+  margin-left: 280px;
+}
+
+.presenter-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  margin: 2rem 0 1rem;
+  padding: 0.5rem;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+}
+
+/* Welcome Section */
+.presenter-welcome-section {
+  margin: 2rem 0;
+  animation: slideInUp 0.8s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.presenter-welcome-content {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 2rem;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  box-shadow: 
+    0 8px 32px 0 rgba(249, 115, 22, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
+.presenter-welcome-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  /* background: linear-gradient(135deg, #1d6fe2 0%, #4b5563 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; */
+  color: #000000;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.presenter-welcome-subtitle {
+  color: #000000;
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Dashboard Main Layout */
+.presenter-dashboard-main {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.presenter-dashboard-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.presenter-dashboard-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Section Titles */
+.presenter-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+/* Action Cards Section */
+.presenter-action-cards-section {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 2rem;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  box-shadow: 
+    0 8px 32px 0 rgba(249, 115, 22, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  animation: slideInUp 0.8s ease-out 0.2s both;
+}
+
+.presenter-action-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.presenter-action-card-link {
+  text-decoration: none;
+  display: block;
+}
+
+.presenter-action-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 1.5rem;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.presenter-action-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.presenter-action-card:hover::before {
+  left: 100%;
+}
+
+.presenter-action-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 25px 50px rgba(249, 115, 22, 0.15),
+    0 0 0 1px rgba(249, 115, 22, 0.3);
+}
+
+.presenter-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.presenter-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #4b5563;
+  background: rgba(249, 115, 22, 0.1);
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.1);
+}
+
+.presenter-card-image {
+  width: 80px;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.presenter-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.presenter-action-card:hover .presenter-card-image {
+  opacity: 1;
+}
+
+.presenter-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.presenter-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.presenter-card-description {
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+}
+
+.presenter-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.presenter-card-action {
+  color: #4b5563;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.presenter-card-arrow {
+  color: #6b7280;
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+}
+
+.presenter-action-card:hover .presenter-card-arrow {
+  transform: translateX(5px);
+}
+
+/* Presentations Section */
+.presenter-presentations-section {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 2rem;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  box-shadow: 
+    0 8px 32px 0 rgba(249, 115, 22, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  animation: slideInUp 0.8s ease-out 0.4s both;
+}
+
+.presenter-presentations-wrapper {
+  background: rgba(249, 115, 22, 0.05);
+  border-radius: 16px;
+  padding: 1rem;
+  border: 1px solid rgba(249, 115, 22, 0.1);
+}
+
+/* Calendar Section */
+.presenter-calendar-section {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 2rem;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  box-shadow: 
+    0 8px 32px 0 rgba(249, 115, 22, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  animation: slideInUp 0.8s ease-out 0.6s both;
+  height: fit-content;
+  position: sticky;
+  top: 120px;
+}
+
+.presenter-calendar-wrapper {
+  background: rgba(249, 115, 22, 0.05);
+  border-radius: 16px;
+  padding: 1rem;
+  border: 1px solid rgba(249, 115, 22, 0.1);
+}
+
+/* Color variations for different gradients */
+.bg-gradient-blue { background: linear-gradient(135deg, #f97316, #dc2626); }
+.bg-gradient-green { background: linear-gradient(135deg, #f97316, #fed7aa); }
+.bg-gradient-orange { background: linear-gradient(135deg, #dc2626, #f97316); }
+.bg-gradient-purple { background: linear-gradient(135deg, #1f2937, #4b5563); }
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .presenter-dashboard-main {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .presenter-dashboard-content {
+    margin-left: 0;
+    max-width: 100vw;
+    padding: 0 1rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .presenter-welcome-title {
+    font-size: 2rem;
+  }
+  
+  .presenter-action-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .presenter-action-card {
+    height: auto;
+    min-height: 180px;
+  }
+  
+  .presenter-action-cards-section,
+  .presenter-presentations-section,
+  .presenter-calendar-section {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .presenter-dashboard-content {
+    padding: 0 0.5rem 1rem;
+  }
+  
+  .presenter-welcome-content {
+    padding: 1.5rem;
+  }
+  
+  .presenter-welcome-title {
+    font-size: 1.5rem;
+  }
+  
+  .presenter-welcome-subtitle {
+    font-size: 1rem;
+  }
+  
+  .presenter-section-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .presenter-dashboard {
+    background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+  }
+  
+  .presenter-welcome-title {
+    background: linear-gradient(135deg, #000000 0%, #ff8800 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Loading and transition states */
+.presenter-dashboard-content > * {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.presenter-dashboard-content > *:nth-child(1) { animation-delay: 0.1s; }
+.presenter-dashboard-content > *:nth-child(2) { animation-delay: 0.2s; }
+.presenter-dashboard-content > *:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus states for accessibility */
+.presenter-action-card:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

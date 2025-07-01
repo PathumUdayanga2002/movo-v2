@@ -23,6 +23,7 @@ import PresenterDashBoard from "./components/PresenterDashboard/PresenterDashBoa
 import EmailSender from "./Admin/Email/EmailSender";
 import AiBot from "./components/AiBot/AiBot";
 import VideoGuide from "./Presenter/VideoGuide/VideoGuide";
+import TestPage from "./components/TestPage"; // Added for testing
 
 // Vertex AI Chat Agent Component that will be used inside Router context
 const VertexAIChatAgent = () => {
@@ -177,7 +178,9 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register-admin" element={<SignInAdmin />} />
         <Route path="/register-presenter" element={<SigninPresenter />} />
+        <Route path="/test" element={<TestPage />} />
         <Route path="/" element={<Home />} />
+        <Route path="/test-page" element={<TestPage />} /> {/* Added for testing */}
       </Routes>
     </>
   );
