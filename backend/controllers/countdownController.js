@@ -1,14 +1,36 @@
+
+const axios = require("axios");
+
+const ESP32_URL = process.env.ESP32_URL;
+
+// utility
+const esp32Call = async (path) => {
+  try {
+    await axios.post(`${ESP32_URL}${path}`, null, { timeout: 2000 });
+    console.log(`✅  Forwarded to ESP32: ${path}`);
+  } catch (err) {
+    console.error(`⚠️  ESP32 call failed (${path}):`, err.message);
+  }
+};
+
+
 let countdown = {
   time: 0,
   isRunning: false,
 };
 let timerInterval = null;
 
-const startCountdown = (req, res) => {
+
+
+const startCountdown = async (req, res) => {
   const io = req.io; // Access Socket.IO from the request object
   if (!countdown.isRunning) {
     countdown.isRunning = true;
-    io.emit("updateCountdown", countdown); // Notify clients
+    io.emit("updateCountdown", countdown);// Notify clients
+
+  /* NEW: tell ESP32 to start */
+    await esp32Call("/start");
+
     timerInterval = setInterval(() => {
       if (countdown.time > 0) {
         countdown.time -= 1;
@@ -25,19 +47,24 @@ const startCountdown = (req, res) => {
   }
 };
 
-const stopCountdown = (req, res) => {
+const stopCountdown = async (req, res) => {
   const io = req.io; // Access Socket.IO from the request object
   if (countdown.isRunning) {
     countdown.isRunning = false;
     clearInterval(timerInterval);
     io.emit("updateCountdown", countdown); // Notify clients
+
+    
+    /* NEW: tell ESP32 to stop */
+    await esp32Call("/stop");
+
     res.status(200).send({ message: "Countdown stopped" });
   } else {
     res.status(400).send({ message: "Countdown is not running" });
   }
 };
 
-const setCountdown = (req, res) => {
+const setCountdown = async(req, res) => {
   const io = req.io; // Access Socket.IO from the request object
   const { time } = req.body;
   if (typeof time === "number" && time >= 0) {
@@ -45,23 +72,32 @@ const setCountdown = (req, res) => {
     countdown.isRunning = false;
     clearInterval(timerInterval);
     io.emit("updateCountdown", countdown); // Notify clients
+
+
+        /* NEW: forward to ESP32 */
+    await esp32Call(`/set-time?seconds=${time}`);
+
     
-    // Send to ESP32 via serial if connected
-    try {
-      // You would implement serial communication here if needed
-      console.log(`Sending time to ESP32: ${time}`);
-    } catch (error) {
-      console.error("Error sending to ESP32:", error);
-    }
     
-    res.status(200).send({ message: "Countdown time set", time: countdown.time });
+    // // Send to ESP32 via serial if connected
+    // try {
+    //   // You would implement serial communication here if needed
+    //   console.log(`Sending time to ESP32: ${time}`);
+    // } catch (error) {
+    //   console.error("Error sending to ESP32:", error);
+    // }
+    
+    // res.status(200).send({ message: "Countdown time set", time: countdown.time });
+
+     res.status(200).send({ message: "time set", time });
   } else {
     res.status(400).send({ message: "Invalid time value" });
   }
 };
 
+
 // Add reset countdown function
-const resetCountdown = (req, res) => {
+const resetCountdown = async (req, res) => {
   const io = req.io; // Access Socket.IO from the request object
   const { time } = req.body;
   
@@ -70,7 +106,10 @@ const resetCountdown = (req, res) => {
     countdown.isRunning = false;
     clearInterval(timerInterval);
     io.emit("updateCountdown", countdown); // Notify clients
-    res.status(200).send({ message: "Countdown reset", time: countdown.time });
+/* NEW: set time on ESP32 as well */
+    await esp32Call(`/set-time?seconds=${time}`);
+ res.status(200).send({ message: "reset", time });
+    // res.status(200).send({ message: "Countdown reset", time: countdown.time });
   } else {
     res.status(400).send({ message: "Invalid time value for reset" });
   }
