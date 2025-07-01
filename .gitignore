@@ -1,3 +1,14 @@
 #environment variables
 backend/.env
 frontend/.env
+
+backend/.env.local
+frontend/.env.local 
+#node modules
+node_modules    
+
+backend/.env.yml
+frontend/.env.yml
+
+backend/node_modules
+frontend/node_modules
