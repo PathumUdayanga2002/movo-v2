@@ -1,227 +1,132 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { 
-  FiPlay, 
-  FiUpload, 
-  FiEye, 
-  FiMail, 
-  FiUsers, 
-  FiBarChart2, 
-  FiClock, 
-  FiTrendingUp,
-  FiCalendar,
-  FiFileText
-} from "react-icons/fi";
-import { HiOutlineSparkles } from "react-icons/hi2";
+import React from "react";
 
 import CardAndCalendar from "../../components/CardAndCalenderRight/CardAndCalendar";
+
 import Header from "../../components/Header/Header";
 import PresentationList from "../../components/PresentationList/PresentationList";
 import Sidebar from "../../components/SIdebar/Sidebar";
 
-import "./AdminDashbord.css";
+import { Link } from "react-router-dom";
 
 //images
 import aichat from "../../assets/images/aichat.jpg";
 import guideVideo from "../../assets/images/guideVideo.png";
 import myPresentation from "../../assets/images/mypresentation.webp";
 import uploadDetails from "../../assets/images/uploadDetails.png";
-
 const AdminDashboard = () => {
-  const [stats, setStats] = useState({
-    totalPresentations: 24,
-    activePresenters: 12,
-    todayScheduled: 5,
-    thisWeekGrowth: 15
-  });
-
-  const [greeting, setGreeting] = useState("");
-
-  useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) setGreeting("Good Morning");
-    else if (hour < 18) setGreeting("Good Afternoon");
-    else setGreeting("Good Evening");
-  }, []);
-
-  const dashboardCards = [
-    {
-      id: 1,
-      title: "Start Presentation",
-      description: "Launch and manage live presentations with full control",
-      link: "/admin/start-presentation",
-      icon: <FiPlay />,
-      image: myPresentation,
-      color: "from-blue-500 to-blue-600",
-      hoverColor: "hover:from-blue-600 hover:to-blue-700"
-    },
-    {
-      id: 2,
-      title: "Upload Guidelines",
-      description: "Manage presentation templates and upload guidelines for presenters",
-      link: "/admin-upload-file",
-      icon: <FiUpload />,
-      image: uploadDetails,
-      color: "from-green-500 to-green-600",
-      hoverColor: "hover:from-green-600 hover:to-green-700"
-    },
-    {
-      id: 3,
-      title: "View Presentations",
-      description: "Browse and manage all presenter submissions and content",
-      link: "/viwe-presentation",
-      icon: <FiEye />,
-      image: guideVideo,
-      color: "from-purple-500 to-purple-600",
-      hoverColor: "hover:from-purple-600 hover:to-purple-700"
-    },
-    {
-      id: 4,
-      title: "Send Messages",
-      description: "Send notifications, reminders, and updates to presenters",
-      link: "/email/send-message",
-      icon: <FiMail />,
-      image: aichat,
-      color: "from-orange-500 to-red-500",
-      hoverColor: "hover:from-orange-600 hover:to-red-600"
-    }
-  ];
-
-  const quickStats = [
-    {
-      title: "Total Presentations",
-      value: stats.totalPresentations,
-      icon: <FiFileText />,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50"
-    },
-    {
-      title: "Active Presenters",
-      value: stats.activePresenters,
-      icon: <FiUsers />,
-      color: "text-green-600",
-      bgColor: "bg-green-50"
-    },
-    {
-      title: "Today's Schedule",
-      value: stats.todayScheduled,
-      icon: <FiClock />,
-      color: "text-orange-600",
-      bgColor: "bg-orange-50"
-    },
-    {
-      title: "Week Growth",
-      value: `+${stats.thisWeekGrowth}%`,
-      icon: <FiTrendingUp />,
-      color: "text-purple-600",
-      bgColor: "bg-purple-50"
-    }
-  ];
-
   return (
-    <div className="admin-dashboard-container">
+    <div className=" flex flex-row bg-orange-100 ">
       <Sidebar />
-      
-      <div className="admin-dashboard-content">
-        {/* Header Section */}
-        <div className="dashboard-header">
+      <div className="flex flex-col ml-4">
+        <div className="w-[900px]">
           <Header />
         </div>
 
-        {/* Welcome Section */}
-        <div className="welcome-section">
-          <div className="welcome-content">
-            <div className="welcome-text">
-              <h1 className="welcome-title">
-                {greeting}, Admin! 
-                <HiOutlineSparkles className="welcome-icon" />
-              </h1>
-              <p className="welcome-subtitle">
-                Ready to manage your presentation platform? Here's your dashboard overview.
-              </p>
-            </div>
-            
-            {/* Quick Stats */}
-            <div className="quick-stats">
-              {quickStats.map((stat, index) => (
-                <div key={index} className="stat-card">
-                  <div className={`stat-icon ${stat.bgColor}`}>
-                    <span className={stat.color}>{stat.icon}</span>
-                  </div>
-                  <div className="stat-content">
-                    <div className="stat-value">{stat.value}</div>
-                    <div className="stat-title">{stat.title}</div>
+        <div className="flex flex-row justify-between">
+          <div className=" w-[700px]">
+            {/* <DashboardCards /> */}
+            <div className=" font-poppins grid grid-cols-2 lg:grid-cols-2 gap-4 mt-4  ">
+              {/* my presentation card */}
+              <Link to={"/admin/start-presentation"}>
+                <div className="p-4 h-[150px] bg-white shadow shadow-orange-600 rounded-xl cursor-pointer hover:scale-105 ">
+                  <div className="flex flex-row gap-2">
+                    {/* paragraph and topic */}
+                    <div className="flex flex-col gap-4 ">
+                      <h1 className=" text-xl font-semibold">
+                        Start Presentation
+                      </h1>
+                      <p className=" text-[14px] text-gray-600">
+                        Start your presetation here..
+                      </p>
+                    </div>
+                    {/* image */}
+                    <div className="flex object-cover">
+                      <img
+                        className=" object-cover w-[500px] h-[100px]"
+                        src={myPresentation}
+                        alt="card image"
+                      />
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="dashboard-main">
-          <div className="dashboard-left">
-            {/* Action Cards Section */}
-            <div className="action-cards-section">
-              <h2 className="section-title">
-                <FiBarChart2 />
-                Quick Actions
-              </h2>
-              
-              <div className="action-cards-grid">
-                {dashboardCards.map((card) => (
-                  <Link key={card.id} to={card.link} className="action-card-link">
-                    <div className={`action-card ${card.hoverColor}`}>
-                      <div className="card-header">
-                        <div className={`card-icon bg-gradient-to-r ${card.color}`}>
-                          {card.icon}
-                        </div>
-                        <div className="card-image">
-                          <img
-                            src={card.image}
-                            alt={card.title}
-                            loading="lazy"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="card-content">
-                        <h3 className="card-title">{card.title}</h3>
-                        <p className="card-description">{card.description}</p>
-                      </div>
-                      
-                      <div className="card-footer">
-                        <span className="card-action">Get Started</span>
-                        <FiPlay className="card-arrow" />
-                      </div>
+              </Link>
+              {/* upload card  "/admin-upload-file"*/}
+              <Link to={"/admin-upload-file"}>
+                <div className="p-4 h-[150px] bg-white shadow shadow-orange-600 rounded-xl cursor-pointer hover:scale-105 ">
+                  <div className="flex flex-row gap-2">
+                    {/* paragraph and topic */}
+                    <div className="flex flex-col gap-4">
+                      <h1 className=" text-xl font-semibold">
+                        Upload Guideline
+                      </h1>
+                      <p className=" text-sm text-gray-600">
+                        Upload your presentation details (group detais,
+                        presentation...)
+                      </p>
                     </div>
-                  </Link>
-                ))}
-              </div>
+                    {/* image */}
+                    <div className="flex object-cover">
+                      <img
+                        className=" object-cover w-[200px] h-[100px]"
+                        src={uploadDetails}
+                        alt="card image"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+              {/* guidance of presentatoin card */}
+              <Link to={"/viwe-presentation"}>
+                {" "}
+                <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] cursor-pointer hover:scale-105">
+                  <div className="flex flex-row gap-2">
+                    {/* paragraph and topic */}
+                    <div className="flex flex-col gap-4">
+                      <h1 className=" text-xl font-semibold">
+                        Show the Presentations
+                      </h1>
+                      <p className=" text-sm text-gray-600">
+                        Show the presenter uploaded presentations
+                      </p>
+                    </div>
+                    {/* image */}
+                    <div className="flex  object-cover">
+                      <img
+                        className=" object-cover w-[300px] h-[100px] "
+                        src={guideVideo}
+                        alt="card image"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+              {/* train with ai chat bot */}
+              <Link to={"/email/send-message"}>
+                <div className="p-4 bg-white shadow shadow-orange-600 rounded-xl h-[150px] cursor-pointer hover:scale-105">
+                  <div className="flex flex-row gap-2">
+                    {/* paragraph and topic */}
+                    <div className="flex flex-col gap-4">
+                      <h1 className=" text-xl font-semibold">Send Message</h1>
+                      <p className=" text-sm text-gray-600">
+                        Send massage or Presentation Reminder
+                      </p>
+                    </div>
+                    {/* image */}
+                    <div className="flex object-cover">
+                      <img
+                        className=" object-cover  w-[100px] h-[90px]"
+                        src={aichat}
+                        alt="card image"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </div>
-
-            {/* Presentations List */}
-            <div className="presentations-section">
-              <h2 className="section-title">
-                <FiFileText />
-                Recent Presentations
-              </h2>
-              <div className="presentations-wrapper">
-                <PresentationList />
-              </div>
-            </div>
+            <PresentationList />
           </div>
-
-          {/* Right Sidebar */}
-          <div className="dashboard-right">
-            <div className="calendar-section">
-              <h2 className="section-title">
-                <FiCalendar />
-                Schedule & Calendar
-              </h2>
-              <div className="calendar-wrapper">
-                <CardAndCalendar />
-              </div>
-            </div>
+          <div className=" mt-[16px] w-[300px]">
+            <CardAndCalendar />
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   FaBell,
   FaCalendar,
@@ -9,154 +9,59 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { RiDashboardFill } from "react-icons/ri";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import "./Sidebar.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [notificationCount] = useState(3); // Example notification count
-  
-  // Get user role to determine dashboard path
-  const userRole = localStorage.getItem("role");
-  const dashboardPath = userRole === "admin" ? "/admin-dashboard" : "/presenter-dashboard";
-
   const handleLogout = () => {
     // Clear authentication data from localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     localStorage.removeItem("name");
-    alert("Logout successful!");
+    alert("logout successfully");
     // Redirect to login page
     navigate("/");
   };
-
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
-
-  const mainMenuItems = [
-    {
-      icon: RiDashboardFill,
-      label: "Dashboard",
-      path: dashboardPath,
-      isActive: location.pathname.includes("dashboard") || location.pathname === "/admin-dashboard" || location.pathname === "/presenter-dashboard"
-    },
-    {
-      icon: FaCalendar,
-      label: "Calendar",
-      path: "/calendar",
-      isActive: isActive("/calendar")
-    },
-    {
-      icon: FaBell,
-      label: "Notifications",
-      path: "/notifications",
-      badge: notificationCount,
-      isActive: isActive("/notifications")
-    },
-    {
-      icon: FaHome,
-      label: "Home",
-      path: "/",
-      isActive: isActive("/")
-    }
-  ];
-
-  const otherMenuItems = [
-    {
-      icon: FaUser,
-      label: "Profile",
-      path: "/profile",
-      isActive: isActive("/profile")
-    },
-    {
-      icon: FaCog,
-      label: "Settings",
-      path: "/settings",
-      isActive: isActive("/settings")
-    },
-    {
-      icon: FaQuestionCircle,
-      label: "Help Center",
-      path: "/help",
-      isActive: isActive("/help")
-    }
-  ];
-
   return (
-    <div className="modern-sidebar">
-      {/* Logo Section */}
-      <div className="sidebar-logo">
-        <h2>MOVO</h2>
-      </div>
-
-      {/* Main Menu */}
-      <nav className="nav-section">
-        <h3 className="nav-title">Main Menu</h3>
-        <ul className="nav-list">
-          {mainMenuItems.map((item, index) => (
-            <li key={index} className="nav-item">
-              {item.path ? (
-                <Link 
-                  to={item.path} 
-                  className={`nav-link ${item.isActive ? 'active' : ''}`}
-                >
-                  <item.icon className="nav-icon" />
-                  {item.label}
-                  {item.badge && (
-                    <span className="nav-badge">{item.badge}</span>
-                  )}
-                </Link>
-              ) : (
-                <div className="nav-link">
-                  <item.icon className="nav-icon" />
-                  {item.label}
-                  {item.badge && (
-                    <span className="nav-badge">{item.badge}</span>
-                  )}
-                </div>
-              )}
-            </li>
-          ))}
+    <div className="w-72 bg-white p-4 px-16 shadow-lg h-screen  font-poppins">
+      <h2 className="text-5xl font-bold text-orange-500">MOVO</h2>
+      <nav className="mt-8">
+        <h3 className="text-gray-700 text-xl">Main Menu</h3>
+        <ul className="mt-4 space-y-6 ml-5 font-bold ">
+          <li className="flex items-center text-gray-700/90 ">
+            <RiDashboardFill className="mr-2" /> Dashboard
+          </li>
+          <Link to={"/calendar"}>
+            {" "}
+            <li className="flex items-center text-gray-700/90 cursor-pointer">
+              {" "}
+              <FaCalendar className="mr-2" /> Calendar
+              {""}
+            </li>{" "}
+          </Link>{" "}
+          <li className="flex items-center text-gray-700/90">
+            <FaBell className="mr-2" /> Notifications
+          </li>
+          <li className="flex items-center text-gray-700/90">
+            <FaHome className="mr-2" /> Home
+          </li>
         </ul>
-      </nav>
-
-      {/* Divider */}
-      <div className="nav-divider"></div>
-
-      {/* Other Menu */}
-      <nav className="nav-section">
-        <h3 className="nav-title">Other Menu</h3>
-        <ul className="nav-list">
-          {otherMenuItems.map((item, index) => (
-            <li key={index} className="nav-item">
-              <Link 
-                to={item.path} 
-                className={`nav-link ${item.isActive ? 'active' : ''}`}
-              >
-                <item.icon className="nav-icon" />
-                {item.label}
-              </Link>
-            </li>
-          ))}
-          
-          {/* Logout Item */}
-          <li className="nav-item">
-            <button
-              onClick={handleLogout}
-              className="nav-link logout"
-              style={{ 
-                width: '100%', 
-                textAlign: 'left', 
-                border: 'none', 
-                backgroundColor: 'transparent',
-                cursor: 'pointer'
-              }}
-            >
-              <FaSignOutAlt className="nav-icon" />
-              Log Out
-            </button>
+        <h3 className="text-gray-700  mt-24 text-xl ">Other Menu</h3>
+        <ul className="mt-4 space-y-6 font-bold ml-5 ">
+          <li className="flex items-center text-gray-700">
+            <FaUser className="mr-2" /> Profile
+          </li>
+          <li className="flex items-center text-gray-700">
+            <FaCog className="mr-2" /> Settings
+          </li>
+          <li
+            onClick={handleLogout}
+            className="flex items-center text-gray-700 cursor-pointer"
+          >
+            <FaSignOutAlt className="mr-2" /> Log Out
+          </li>
+          <li className="flex items-center text-gray-700">
+            <FaQuestionCircle className="mr-2" /> Help and Center
           </li>
         </ul>
       </nav>

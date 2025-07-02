@@ -1,6 +1,7 @@
 {
   "name": "creative_design_project_movo",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"cd backend && npm start\" \"cd frontend && npm run dev\"",
@@ -16,14 +17,5 @@
     "mongoose": "^8.9.3",
     "react-circular-progressbar": "^2.1.0",
     "react-icons": "^5.4.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PathumUdayanga2002/movo-v2.git"
-  },
-  "bugs": {
-    "url": "https://github.com/PathumUdayanga2002/movo-v2/issues"
-  },
-  "homepage": "https://github.com/PathumUdayanga2002/movo-v2#readme",
-  "description": ""
+  }
 }

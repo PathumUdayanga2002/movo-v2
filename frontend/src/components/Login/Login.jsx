@@ -1,39 +1,24 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowLeft } from 'react-icons/fi';
-import { HiOutlineSparkles } from 'react-icons/hi2';
+import { useNavigate } from "react-router-dom";
+import lbg from "../../assets/lbg.png";
 import limage from "../../assets/logimage.png";
 import axiosInstance from "../../utils/axios";
-import "./login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-    
-    // Basic validation
-    if (!email.trim() || !password.trim()) {
-      setError("Please fill in all fields");
-      return;
-    }
-    
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("Please enter a valid email address");
-      return;
-    }
-    
     setLoading(true);
 
     try {
       const { data } = await axiosInstance.post("/auth/login", {
-        email: email.trim(),
+        email,
         password,
       });
 
@@ -45,31 +30,16 @@ const Login = () => {
       // Check role and navigate accordingly
       const role = data.role;
       if (role === "admin") {
-        navigate("/admin-dashboard");
+        window.location.href = "/admin-dashboard";
       } else if (role === "presenter") {
-        navigate("/presenter-dashboard");
+        window.location.href = "/presenter-dashboard";
       } else {
-        throw new Error("Invalid role received from server");
+        throw new Error("Invalid role");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      
-      let errorMessage = "Login failed. Please try again.";
-      
-      if (error.response?.status === 401) {
-        errorMessage = "Invalid email or password. Please check your credentials.";
-      } else if (error.response?.status === 400) {
-        errorMessage = error.response.data?.error || "Invalid request. Please check your input.";
-      } else if (error.response?.status >= 500) {
-        errorMessage = "Server error. Please try again later.";
-      } else if (error.message === "Network Error") {
-        errorMessage = "Network error. Please check your internet connection.";
-      } else if (error.response?.data?.error) {
-        errorMessage = error.response.data.error;
-      }
-      
-      setError(errorMessage);
-      
+      setError(
+        error.response?.data?.error || "Login failed. Please check your credentials."
+      );
       // Clear any potentially corrupted authentication data
       localStorage.removeItem("token");
       localStorage.removeItem("role");
@@ -80,120 +50,67 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      {/* Back to Home Button */}
-      <Link to="/" className="back-button">
-        <FiArrowLeft />
-        <span>Back to Home</span>
-      </Link>
-
-      <div className="login-card">
-        {/* Brand Section */}
-        <div className="brand-section">
-          <div className="brand-header">
-            <div className="brand-icon">
-              <HiOutlineSparkles />
-            </div>
-            <h1 className="brand-title">MOVO</h1>
-            <p className="brand-subtitle">
-              Transform your presentation workflow with our AI-powered platform.
-              Welcome back to the future of presentations.
-            </p>
-          </div>
-          <img
-            className="brand-image"
-            src={limage}
-            alt="Presenter Illustration"
-            loading="lazy"
-          />
-        </div>
-
-        {/* Form Section */}
-        <div className="form-section">
-          <div className="form-header">
-            <h2 className="form-title">Welcome Back</h2>
-            <p className="form-subtitle">Sign in to your account to continue</p>
+    <div
+      className="min-h-screen font-poppins flex flex-col items-center bg-gray-100 bg-no-repeat w-full"
+      style={{
+        backgroundImage: `url(${lbg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="flex items-center justify-center mt-[50px]">
+        <div className="bg-white flex justify-between p-10 w-[1000px] h-[550px] rounded-xl shadow-lg">
+          {/* Image side */}
+          <div className="flex flex-col">
+            <h1 className="text-4xl font-bold space-y-5 text-orange-500">
+              Welcome to <br /> MOVO
+            </h1>
+            <img
+              className="h-[400px] w-[400px]"
+              src={limage}
+              alt="Presenter Illustration"
+            />
           </div>
 
-          {error && (
-            <div className="error-message" role="alert">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleLogin} className="login-form" noValidate>
-            <div className="form-group">
-              <label htmlFor="email" className="form-label">
-                <FiMail className="label-icon" />
-                Email Address
-              </label>
-              <input
-                className={`form-input ${error && error.includes('email') ? 'error' : ''}`}
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email address"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (error) setError(""); // Clear error on input change
-                }}
-                required
-                autoComplete="email"
-                disabled={loading}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password" className="form-label">
-                <FiLock className="label-icon" />
-                Password
-              </label>
-              <div className="password-input-wrapper">
+          {/* Form side */}
+          <div className="w-[400px]">
+            <h1 className="text-3xl font-semibold">User Login</h1>
+            {error && (
+              <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg">
+                {error}
+              </div>
+            )}
+            <form onSubmit={handleLogin} className="mt-5">
+              <div className="flex flex-col gap-3">
+                <label htmlFor="email">Email</label>
                 <input
-                  className={`form-input ${error && error.includes('password') ? 'error' : ''}`}
-                  type={showPassword ? 'text' : 'password'}
+                  className="border-b border-black p-2"
+                  type="email"
+                  id="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <label htmlFor="password">Password</label>
+                <input
+                  className="border-b border-black p-2"
+                  type="password"
                   id="password"
-                  name="password"
                   placeholder="Enter your password"
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    if (error) setError(""); // Clear error on input change
-                  }}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
-                  autoComplete="current-password"
-                  disabled={loading}
                 />
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}
-                  disabled={loading}
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                >
-                  {showPassword ? <FiEyeOff /> : <FiEye />}
-                </button>
               </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading || !email.trim() || !password.trim()}
-              className="login-button"
-            >
-              {loading && <span className="loading-spinner"></span>}
-              {loading ? "Signing In..." : "Sign In"}
-            </button>
-          </form>
-
-          <div className="form-footer">
-            <p>
-              Don't have an account?{' '}
-              <Link to="/presenter-signup" className="footer-link">
-                Create one here
-              </Link>
-            </p>
+              <button
+                type="submit"
+                disabled={loading}
+                className={`w-full px-4 py-2 bg-orange-500 text-white rounded-lg text-center mt-5 hover:bg-orange-600 transition duration-200 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {loading ? "Logging in..." : "Login"}
+              </button>
+            </form>
           </div>
         </div>
       </div>
